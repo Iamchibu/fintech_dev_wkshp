@@ -1,5 +1,5 @@
 # fintech_dev_wkshp
-**Assumptions**:
+**Assumptions**:\n
 User has the basic knowledge of:
 - Git
 - Javascript
