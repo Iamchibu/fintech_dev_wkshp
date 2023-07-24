@@ -1,5 +1,5 @@
 # fintech_dev_wkshp
-**Assumptions**:
+**Assumptions**
 
 Basic knowledge of:
 - Git
