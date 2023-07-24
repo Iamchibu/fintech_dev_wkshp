@@ -1,0 +1,14 @@
+{
+    "Auth": {
+      "region": "us-east-1",
+      "identityPoolId": "us-east-1:hjfsW6UjbR5w7hzYYoN2MNAx8LwB06a2NIN/P9eE"
+    },
+    "Storage": {
+      "AWSS3": {
+        "region": "us-east-1",
+        "bucket": "my-bucket-name"
+      }
+    }
+  }
+
+  

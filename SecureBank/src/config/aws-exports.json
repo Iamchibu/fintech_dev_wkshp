@@ -1,0 +1,14 @@
+{
+    "Auth": {
+      "region": "",
+      "identityPoolId": "AKIA2WDF2B46CKWLM2PZ"
+    },
+    "Storage": {
+      "AWSS3": {
+        "region": "",
+        "bucket": ""
+      }
+    }
+  }
+
+  

@@ -1,0 +1,14 @@
+{
+  "resourceName": "dynamobf827f89",
+  "tableName": "transactions",
+  "partitionKey": {
+    "fieldName": "entity_id",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "ip_address",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

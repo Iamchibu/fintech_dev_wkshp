@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/items": {
+      "name": "/items",
+      "lambdaFunction": "securebank0ea4d286",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

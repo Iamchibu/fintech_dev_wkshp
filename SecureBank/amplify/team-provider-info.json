@@ -1,0 +1,40 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-securebank-dev-162035-authRole",
+      "UnauthRoleArn": "arn:aws:iam::734652927804:role/amplify-securebank-dev-162035-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::734652927804:role/amplify-securebank-dev-162035-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-securebank-dev-162035-deployment",
+      "UnauthRoleName": "amplify-securebank-dev-162035-unauthRole",
+      "StackName": "amplify-securebank-dev-162035",
+      "StackId": "arn:aws:cloudformation:us-east-1:734652927804:stack/amplify-securebank-dev-162035/c3fb9f00-0ede-11ee-bb27-0af7a1a4fde7",
+      "AmplifyAppId": "d1gywi9i4faop9"
+    },
+    "categories": {
+      "auth": {
+        "securebankb585593f": {}
+      },
+      "function": {
+        "securebank0ea4d286": {
+          "deploymentBucketName": "amplify-securebank-dev-162035-deployment",
+          "s3Key": "amplify-builds/securebank0ea4d286-306c774347534857766f-build.zip"
+        },
+        "S3Trigger546e2eb8": {
+          "deploymentBucketName": "amplify-securebank-dev-162035-deployment",
+          "s3Key": "amplify-builds/S3Trigger546e2eb8-4d3975466e764b613871-build.zip"
+        }
+      },
+      "api": {
+        "api4be2eb48": {}
+      },
+      "storage": {
+        "dynamobf827f89": {},
+        "s3787ee693": {}
+      },
+      "hosting": {
+        "S3AndCloudFront": {}
+      }
+    }
+  }
+}
