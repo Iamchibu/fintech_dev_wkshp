@@ -1,6 +1,7 @@
 # fintech_dev_wkshp
-**Assumptions**:\n
-User has the basic knowledge of:
+**Assumptions**:
+
+Basic knowledge of:
 - Git
 - Javascript
 - Python
