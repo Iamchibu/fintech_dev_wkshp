@@ -1,0 +1,49 @@
+
+
+service: cs-service
+
+frameworkVersion: '3'
+
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: dev
+  region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:*"
+          Resource: "*"
+  ecr:
+    images:
+      llm-ftdc:
+        path: ./
+  s3:
+    csFolder:
+      name: ftdc-cs-bucket
+
+package:
+  exclude:
+    - layers/**
+
+
+functions:
+  process_pdf:
+    image: 
+      name: llm-ftdc
+    events:
+      - s3:
+          bucket: csFolder
+          event: s3:ObjectCreated:*
+
+# resources:
+#   - ${file(resources/data-lake.yml)}
+
+
+
+
+
+

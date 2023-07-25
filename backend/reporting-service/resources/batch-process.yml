@@ -1,0 +1,104 @@
+Parameters:
+  TxnBucketName:
+    Type: String
+    Default: ftdc-2023-txnbucket
+    Description: Value that will be prefixed to the bucket name
+
+  TxnDatabaseName:
+    Type: String
+    MinLength: "4"
+    Default: "txn_database"
+    Description: "Name of the AWS Glue database to contain this CloudFormation template's tables."
+
+  TxnsTableName:
+    Type: String
+    MinLength: "4"
+    Default: "txns_table"
+    Description: "Name of the Transactions data table in AWS Glue."
+
+Resources:
+  TxnDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Description: Glue database to store transaction data
+        Name: !Ref TxnDatabaseName
+
+  TxnBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${TxnBucketName}
+
+  TxnTable:
+    Type: AWS::Glue::Table
+    DependsOn: TxnDatabase
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref TxnDatabaseName
+      TableInput:
+        Parameters:
+          orc.compress: SNAPPY
+          has_encrypted_data: false
+          EXTERNAL: TRUE
+        Name: !Ref TxnsTableName
+        StorageDescriptor:
+          Columns:
+            - Name: transaction_amt
+              Type: double
+            - Name: email_address
+              Type: string
+            - Name: ip_address
+              Type: string
+            - Name: transaction_currency
+              Type: string
+            - Name: event_id
+              Type: string
+            - Name: entity_id
+              Type: string
+            - Name: event_time
+              Type: string
+            - Name: billing_longitude
+              Type: string
+            - Name: billing_state
+              Type: string
+            - Name: user_agent
+              Type: string
+            - Name: billing_street
+              Type: string
+            - Name: billing_city
+              Type: string
+            - Name: card_bin
+              Type: string
+            - Name: customer_name
+              Type: string
+            - Name: product_category
+              Type: string
+            - Name: customer_job
+              Type: string
+            - Name: phone
+              Type: string
+            - Name: billing_latitude
+              Type: string
+            - Name: billing_zip
+              Type: string
+          InputFormat: org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat
+          OutputFormat: org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat
+          Location: !Sub "s3://${TxnBucketName}/batch-transformed/"
+          Compressed: false
+          NumberOfBuckets: -1
+          SerdeInfo:
+            SerializationLibrary: org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe
+            Parameters:
+              {
+                "serialization.format": "1",
+                "BucketColumns": "[]",
+                "SortColumns": "[]",
+                "StoredAsSubDirectories": false,
+                "PartitionKeys": '[
+                  { "Name": event_time, "Type": string },
+                  ]',
+              }
+        TableType: EXTERNAL_TABLE
+        
+
