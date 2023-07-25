@@ -1,5 +1,5 @@
 #amplify-do-not-edit-begin
-amplify/
+amplify/*
 build/
 dist/
 node_modules/
