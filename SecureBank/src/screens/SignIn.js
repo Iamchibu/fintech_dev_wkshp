@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -14,14 +14,10 @@ import {
   LogBox,
   Platform
 } from "react-native";
-// import secureBankService from ".././service/SecureBankService";
 import Toast from 'react-native-tiny-toast';
 import { FontAwesome } from "@expo/vector-icons";
 import Loader from '../components/Loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
-// import { useDispatch, useSelector } from "react-redux";
-// import { login } from "../reducers/LoginReducer";
 import { Auth, Amplify } from 'aws-amplify';
 import awsExports from '../../src/aws-exports';
 Amplify.configure(awsExports);
@@ -30,29 +26,18 @@ Amplify.configure(awsExports);
 const { width, height } = Dimensions.get("window");
 
 const SignIn = ({ route, navigation }) => {
-  //   const loginInfo = useSelector((state) => state.login.login);
-  //   console.log("loginInfo loginInfo loginInfo",loginInfo)
-  //   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const [email, setUsername] = useState("");
   const [us, setUs] = useState("");
   const [password, setPassword] = useState("");
   const [pa, setPa] = useState("");
-  const [token, setToken] = useState("");
   const [embu, setEmbu] = useState("");
   const [correct, setCorrect] = useState(false);
   const [correctPassword, setcorrectPassword] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const emailInput = useRef();
-
-  const refSignInRBSheet = useRef();
-
-  useEffect(() => {
-    // refSignInRBSheet.current.open()
-  }, []);
-
 
   const handleEmail = (email) => {
     if (email != "") {
@@ -136,16 +121,10 @@ const SignIn = ({ route, navigation }) => {
       try {
         const res = await Auth.signIn(email, password);
         console.log(res);
-        // navigation.navigate("DocumentUpload");
-        // navigation.navigate("Transaction");
-        success();
         _storeData(res.attributes);
-        navigation.navigate("Dashboard", {
-          data: res.attributes
-        }
-        );
-
-
+        navigation.navigate("Dashboard");
+        
+        success();
       }
       catch (e) {
         Alert.alert(e.message);
@@ -153,66 +132,7 @@ const SignIn = ({ route, navigation }) => {
     }
   }
 
-  const submitSignIn = (payload) => {
-    setIsLoading(false);
-
-    console.log(payload);
-
-    const onSuccess = (data) => {
-      // insert into db...
-      _storeData(data.data);
-      dispatch(login(data.data));
-
-      setIsLoading(false);
-      console.log("Dataaa", data.data);
-      if (data.status == 200) {
-        Alert.alert(null, "Login successfully", [{
-          text: 'Ok', onPress: () => navigation.navigate("SignIn")
-        }])
-      }
-    };
-
-    const onFailure = (error) => {
-      console.log(error && error.response);
-      setIsLoading(false);
-      if (error.response == null) {
-        setIsLoading(false);
-        Alert.alert('Info: ', 'Network Error')
-      }
-      if (error.response.status == 400) {
-        setIsLoading(false);
-        Alert.alert('Info: ', 'Invalid Credentials')
-      } else if (error.response.status == 500) {
-        setIsLoading(false);
-        Alert.alert('Info: ', 'Ensure your Network is Stable')
-      } else if (error.response.status == 401) {
-        setIsLoading(false);
-        Alert.alert(null, "Unauthorized")
-      } else if (error.response.status == 404) {
-        setIsLoading(false);
-        Alert.alert('Info: ', 'Not found')
-      }
-      setIsLoading(false);
-    };
-
-    setIsLoading(true);
-    //  secureBankService
-    //   .post(`/login?email=${payload.email}&password=${payload.password}`)
-    //   .then(onSuccess)
-    //   .catch(onFailure);
-  }
-
-  const removeItemValue = async (key) => {
-    try {
-      await AsyncStorage.removeItem(key);
-      return true;
-    } catch (exception) {
-      return false;
-    }
-  }
-
   const _storeData = async (value) => {
-    await removeItemValue("userDetails");
     try {
       await AsyncStorage.setItem("userDetails", JSON.stringify(value));
 
@@ -377,7 +297,6 @@ const styles = StyleSheet.create({
     wrapper: { backgroundColor: "transparent" }
   },
   viewBottomSheetStyle: {
-    // position: "absolute",
     bottom: 0,
     backgroundColor: "#3B82A033",
     borderTopStartRadius: 20,

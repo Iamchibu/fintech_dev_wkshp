@@ -17,9 +17,6 @@ import * as FileSystem from 'expo-file-system';
 import Loader from "../components/Loader";
 import { Amplify, Storage } from 'aws-amplify';
 import awsconfig from '../aws-exports';
-// import { Dropdown } from 'react-native-material-dropdown';
-// import Spinner from "react-native-loading-spinner-overlay";
-// import secureBankService from ".././service/SecureBankService";
 
 const { width } = Dimensions.get("window");
 const WINDOW_HEIGHT = Dimensions.get("window").height;
@@ -30,10 +27,10 @@ export default function DocumentUpload({ route, navigation }) {
   const [media_type, setMediaType] = useState("application/pdf");
   const [fileInfo, setFileInfo] = useState("");
 
-  const S3_BUCKET = 'ecureank-20230702122438-hostingbucket-dev';
+  const S3_BUCKET = 'S3 BUCKET name';
   const REGION = 'us-east-1';
-  const ACCESS_KEY = 'AKIA2WDF2B46CKWLM2PZ';//AKIA2WDF2B46CKWLM2PZ   us-east-1:hjfsW6UjbR5w7hzYYoN2MNAx8LwB06a2NIN/P9eE
-  const SECRET_ACCESS_KEY = 'us-east-1:hjfsW6UjbR5w7hzYYoN2MNAx8LwB06a2NIN/P9eE';//'arn:aws:iam::734652927804:user/secure-bank-dev';
+  const ACCESS_KEY = 'Your Access key';
+  const SECRET_ACCESS_KEY = 'us-east-1:abcdefghijklmnopqrstuvwxyz1234567890-Your secure access key';
 
   const config = {
     bucketName: S3_BUCKET,
@@ -41,41 +38,6 @@ export default function DocumentUpload({ route, navigation }) {
     accessKeyId: ACCESS_KEY,
     secretAccessKey: SECRET_ACCESS_KEY,
   }
-
-  // const uploadFilee = async () => {
-  //   const file_name = fileInfo.name;
-  //   const description = fileInfo.type;
-  //   const type = fileInfo.type;
-  //   const file = fileInfo.uri;
-  //   const size = fileInfo.size;
-
-  //   const params = {
-  //     ACL: 'public-read',
-  //     Body: file,
-  //     Bucket: S3_BUCKET,
-  //     Key: file_name
-  //   };
-
-  //   myBucket.putObject(params)
-  //     .on('httpUploadProgress', (evt) => {
-  //       setProgress(Math.round((evt.loaded / evt.total) * 100))
-  //     })
-  //     .send((err) => {
-  //       if (err) console.log(err)
-  //     })
-  // }
-
-  // const handleUpload = async () => {
-  //   const file_name = fileInfo.name;
-  //   const description = fileInfo.type;
-  //   const type = fileInfo.type;
-  //   const file = fileInfo.uri;
-  //   const size = fileInfo.size;
-
-  //   uploadFile(file, config)
-  //     .then(data => console.log(data))
-  //     .catch(err => console.error(err))
-  // }
 
   const fetchImageUri = async (uri) => {
     const response = await fetch(uri);

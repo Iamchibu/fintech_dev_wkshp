@@ -1,25 +1,11 @@
 import React from "react";
-import {
-  Dimensions,
-} from "react-native";
 import { 
-  Nunito_200ExtraLight,
-  Nunito_200ExtraLight_Italic,
   Nunito_300Light,
-  Nunito_300Light_Italic,
   Nunito_400Regular,
-  Nunito_400Regular_Italic,
   Nunito_600SemiBold,
-  Nunito_600SemiBold_Italic,
   Nunito_700Bold,
-  Nunito_700Bold_Italic,
-  Nunito_800ExtraBold,
-  Nunito_800ExtraBold_Italic,
-  Nunito_900Black,
-  Nunito_900Black_Italic,
   useFonts
 } from '@expo-google-fonts/nunito';
-import AppLoading from 'expo-app-loading';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import { NavigationContainer } from '@react-navigation/native';
@@ -41,8 +27,6 @@ import ProfileScreen from "./src/screens/Profile";
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-const { width } = Dimensions.get("window");
-const { height } = Dimensions.get("window");
 
 function MyTabs() {
   return (
@@ -118,20 +102,6 @@ const HomeStack = () => (
   </Stack.Navigator>
 );
 
-const TransactionsStack = () => (
-    <Stack.Navigator initialRouteName="Transaction">
-      <Stack.Screen
-        name="Transaction"
-        component={TransactionTabs}
-        options={{ 
-          title: "",
-          headerShown: false,
-          headerTransparent: true
-           }}
-      />
-    </Stack.Navigator>
-);
-
 const ProfileStack = () => (
   <Stack.Navigator initialRouteName="ProfileScreen">
     <Stack.Screen
@@ -149,51 +119,82 @@ const ProfileStack = () => (
       options={{ 
         title: "",
         headerShown: true,
-        headerTintColor: "#0A1017",
-        headerTransparent: true,
-        // headerLeft: ()=> <ArrowLeftIcon/>
+        headerTintColor: "#3B82A0",
+        headerTransparent: true
          }}
     />
   </Stack.Navigator>
 );
 
-
-const AuthStack = () => (
-  <NavigationContainer>
-    <Stack.Navigator initialRouteName="LoginScreen">
-      <Stack.Screen
-        name="LoginScreen"
-        component={Login}
-        options={{ title: "", headerShown: false, headerBackTitle: "", }}
-      />
-      <Stack.Screen
-        name="Dashboard"
-        component={MyTabs}
-        options={{ title: "", headerShown: false, headerBackTitle: "", }}
-      />
-      <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPassword}
-        options={{ 
-          title: "",
-          headerShown: true,
-          headerTintColor: "#0A1017",
-          headerTransparent: true,
-          headerBackTitle: "",
-           }}
-      />
-      <Stack.Screen
-        name="ResetPassword"
-        component={ResetPassword}
-        options={{ 
-          title: "",
-          headerShown: true,
-          headerTintColor: "#0A1017",
-          headerTransparent: true
-           }}
-      />
-    </Stack.Navigator>
-  </NavigationContainer>
+const WelcomeStack = () => (
+  <Stack.Navigator initialRouteName="Welcome">
+    <Stack.Screen
+      name="Welcome"
+      component={Welcome}
+      options={{ 
+        title: "",
+        headerShown: false,
+        headerTransparent: true
+         }}
+    />
+    <Stack.Screen
+      name="SignIn"
+      component={SignIn}
+      options={{ 
+        title: "",
+        headerShown: false,
+        headerTransparent: true
+         }}
+    />
+    <Stack.Screen
+      name="SignUp"
+      component={SignUp}
+      options={{ 
+        title: "",
+        headerShown: false,
+        headerTransparent: true
+         }}
+    />
+    <Stack.Screen
+      name="ConfirmEmail"
+      component={ConfirmEmail}
+      options={{ 
+        title: "",
+        headerShown: false,
+        headerTransparent: true
+         }}
+    />
+    <Stack.Screen
+      name="ForgotPassword"
+      component={ForgotPassword}
+      options={{ 
+        title: "",
+        headerShown: true,
+        headerTintColor: "#3B82A0",
+        headerTransparent: true
+         }}
+    />
+     <Stack.Screen
+      name="ResetPassword"
+      component={ResetPassword}
+      options={{ 
+        title: "",
+        headerShown: true,
+        headerTintColor: "#3B82A0",
+        headerTransparent: true
+         }}
+    />
+    <Stack.Screen
+      name="Dashboard"
+      component={MyTabs}
+      options={{ 
+        title: "",
+        headerShown: false,
+        headerTintColor: "#3B82A0",
+        headerTransparent: true
+         }}
+    />
+  </Stack.Navigator>
 );
 
 export default function App() {
@@ -221,89 +222,23 @@ export default function App() {
 
 const Navigator = createStackNavigator(
   {
-    SignIn: {
-        screen: SignIn,
-        navigationOptions: {
-          headerShown: false,
-          headerTransparent: true,
-          title: "",
-          headerTintColor: "#3B82A0",
-        },
-      },
-      Welcome: {
-        screen: Welcome,
+    WelcomeStack: {
+        screen: WelcomeStack,
         navigationOptions: {
           headerShown: false,
           headerTransparent: true,
         },
-      },
-       ConfirmEmail: {
-        screen: ConfirmEmail,
-        navigationOptions: {
-          headerShown: false,
-          headerTransparent: true,
-          title: "",
-          headerTintColor: "#3B82A0",
-        },
-      },
-      SignUp: {
-        screen: SignUp,
-        navigationOptions: {
-          headerShown: false,
-          headerTransparent: true,
-          title: "",
-          headerTintColor: "#3B82A0",
-        },
-      },
-      DocumentUpload: {
-        screen: DocumentUpload,
-        navigationOptions: {
-          headerShown: true,
-          headerTransparent: true,
-          title: "",
-          headerTintColor: "#3B82A0",
-        },
-      },
-      ForgotPassword: {
-        screen: ForgotPassword,
-        navigationOptions: {
-          headerShown: true,
-          headerTransparent: true,
-          title: "",
-          headerTintColor: "#3B82A0",
-        },
-      },
-      ResetPassword: {
-        screen: ResetPassword,
-        navigationOptions: {
-          headerShown: true,
-          headerTransparent: true,
-          title: "",
-          headerTintColor: "#3B82A0",
-        },
-      },
-      Dashboard: {
-        screen: MyTabs,
-        navigationOptions: {
-          headerShown: false,
-          // headerTransparent: true,
-          title: "",
-          headerTintColor: "#3B82A0",
-          headerStyle: {
-            backgroundColor: "#FFF"
-          }
-        },
-      },
+      }
   },
   {
-    initialRouteName: "Welcome",
+    initialRouteName: "WelcomeStack",
     defaultNavigationOptions: {
-      // title: "",
+      headerShown: false,
       headerStyle: {
-        backgroundColor: "#E5E5E5",//"#1e5228", 
+        backgroundColor: "#FFF",
         opacity: 0.90
       },
-      headerTintColor: "#000",
+      headerTintColor: "#3B82A0",
       headerTitleStyle: {
         fontFamily: "Nunito_600SemiBold",
         fontSize: 17
@@ -313,6 +248,3 @@ const Navigator = createStackNavigator(
 );
 
 const AppContainer = createAppContainer(Navigator);
-
-
-// "arne jacobsen, national bank, copenhagen, 1961-1978." by seier+seier is licensed under CC BY 2.0.

@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 
 
 let SecureBankService = axios.create({
-  baseURL: Platform.OS === "ios" ? 'https://house-river-api.onrender.com/' : 'https://house-river-api.onrender.com/',
+  baseURL: Platform.OS === "ios" ? 'https://.com/' : 'https://.com/',
   timeout: 10000,
 });
 

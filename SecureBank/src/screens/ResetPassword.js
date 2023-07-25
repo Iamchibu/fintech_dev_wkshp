@@ -18,19 +18,13 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 // import  Loader  from '../components/Loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
-// import { useDispatch, useSelector } from "react-redux";
-// import { login } from "../reducers/LoginReducer";
 import { Auth, Amplify } from 'aws-amplify';
 import awsExports from '../../src/aws-exports';
 Amplify.configure(awsExports);
 const { width, height } = Dimensions.get("window");
 
 const ResetPassword = ({ route, navigation }) => {
-  const { email } = navigation.state.params;
-//   const loginInfo = useSelector((state) => state.login.login);
-//   console.log("loginInfo loginInfo loginInfo",loginInfo)
-//   const dispatch = useDispatch();
+  const { email } = route.params;
 
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
@@ -181,7 +175,7 @@ const ResetPassword = ({ route, navigation }) => {
         source={require("./../../assets/landing.png")}
         style={styles.image}>
             
-          <StatusBar backgroundColor="#F4EFEF" barStyle="dark-content"/>
+          <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
           {/* <Loader loading={isLoading} /> */}
           <Image 
             source={require("./../../assets/small.png")}
@@ -192,7 +186,7 @@ const ResetPassword = ({ route, navigation }) => {
           <View style={styles.viewBottomSheetStyle}>
           <Text style={styles.displayTextStyle}>Create An Account</Text>
           
-          <ScrollView style={{ alignSelf: "center", flex: 1, width: width }}>
+          <ScrollView style={{ height: height * 0.6 }}>
           <View style={styles.emailTextStyleView}>
           <Text style={styles.emailTextStyle}>Email Address</Text>
               <TextInput
@@ -317,14 +311,14 @@ const styles = StyleSheet.create({
     wrapper: {backgroundColor: "transparent"}
   },
   viewBottomSheetStyle: {
-    position: "absolute",
     bottom: 0,
     backgroundColor: "#3B82A033",
     borderTopStartRadius: 20,
-    borderTopEndRadius: 20, 
+    borderTopEndRadius: 20,
     alignItems: "center",
     width: width,
-    height: height * 0.79
+    height: height * 0.79,
+    marginTop: Platform.OS === "ios" ? height * 0.11 : height * 0.15
   },
   emailTextStyleView: {
     marginTop: 24,
@@ -438,7 +432,7 @@ const styles = StyleSheet.create({
     width: width * 0.9,
     backgroundColor: "#3B82A0",
     marginBottom: 5, 
-    marginTop: 24,  
+    marginTop: 54,  
     marginHorizontal: 24
   },
   loginButtonText: {

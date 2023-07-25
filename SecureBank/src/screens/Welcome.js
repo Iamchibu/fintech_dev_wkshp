@@ -15,13 +15,6 @@ import {
 const { width, height } = Dimensions.get("window");
 
 const Welcome = ({ navigation }) => {
-
-  const refRBSheet = useRef();
-  
-  useEffect(() => {
-    // refRBSheet.current.open()
-  },[]);
-
     LogBox.ignoreAllLogs(true);
     
     return (
@@ -33,7 +26,6 @@ const Welcome = ({ navigation }) => {
           keyboardShouldPersistTaps="always">
           <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
 
-          {/* <Middle/> */}
           <Image 
             source={require("./../../assets/middle.png")}
             resizeMode={'cover'} 

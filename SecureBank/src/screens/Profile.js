@@ -47,7 +47,6 @@ class Profile extends Component {
   componentWillMount = () => {
     this._retrieveData();
   }
-  // LOG  I want to make request o {"address": "Boston, MA", "email": "cejimuda@bu.edu", "email_verified": true, "name": "Chibu Ejimuda", "phone_number": "+16172242131", "phone_number_verified": false, "sub": "b1e6143c-37f4-4780-aa23-7d5d5c4a0f0c"}
 
   _retrieveData() {
     AsyncStorage.getItem("userDetails").then((res) => {
@@ -66,10 +65,9 @@ class Profile extends Component {
           email_verified: response.email_verified
         });
 
-        console.log("There is no role dey...", response);
-        // console.log("I role to make role o", this.state.role);
+        console.log("There is ...", response);
       } else {
-        console.log("There is no role dey...", response);
+        console.log("There is no ...", response);
       }
     });
   }
@@ -91,7 +89,6 @@ class Profile extends Component {
         {
           text: 'Yes', onPress: () => {
             this.removeItemValue("userDetails");
-            // this._retrieveData()
             this.props.navigation.navigate("SignIn")
             Alert.alert(null, "You just logged out now,\nSign in to do actions successfully!", [
               {
@@ -109,7 +106,6 @@ class Profile extends Component {
   render() {
     LogBox.ignoreAllLogs(true);
     const { name, email, phone_number, address, email_verified } = this.state;
-    console.log("jhgfdsafghjkj", this.props.navigation.navigate("Welcome"));
     return (
       <View backgroundColor="#FFFFFF" height={height}>
         <ScrollView
@@ -402,8 +398,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     height: height * 0.92,
     width: width * 0.9,
-    borderRadius: 10,
-    // alignItems:'center', 
+    borderRadius: 10
   },
   confirmTitle: {
     fontSize: 16,
@@ -520,7 +515,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   cardStyle: {
-    width: 250,//width * 0.45,
+    width: 250,
     height: 150,
     padding: 10,
     color: "#ffffff",
@@ -534,7 +529,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   firstCardStyle: {
-    width: 250,//width * 0.45,
+    width: 250,
     height: 150,
     padding: 10,
     color: "#ffffff",
@@ -590,7 +585,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   fifthCardStyle: {
-    width: 250,//width * 0.45,
+    width: 250,
     height: 150,
     padding: 10,
     color: "#ffffff",
