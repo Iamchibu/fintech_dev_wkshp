@@ -21,30 +21,6 @@ import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 // import moment from 'moment';
 // import secureBankService from ".././service/SecureBankService";
 
-const initialState = {
-  transaction_amt: 0,
-  email_address: "",
-  ip_address: "",
-  transaction_currency: "USD",
-  event_id: "",
-  entity_id: "",
-  event_time: "",
-  billing_longitude: "",
-  billing_state: "",
-  user_agent: "",
-  billing_street: "",
-  billing_city: "",
-  card_bin: "",
-  customer_name: "",
-  product_category: "",
-  customer_job: "",
-  phone: "",
-  billing_latitude: "",
-  billing_zip: "",
-  product_cat: [{ label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Prefer Not to Say", value: "neutral" }]
-};
 const { width } = Dimensions.get("window");
 const { height } = Dimensions.get("window");
 const WINDOW_HEIGHT = Dimensions.get("window").height;
@@ -52,7 +28,6 @@ const apiURL = 'https://ipgeolocation.abstractapi.com/v1/'
 const apiKey = '9065ec7c1dcb4f6886cfc6f92275e936';
 
 class QuickTransaction extends Component {
-  // state = initialState
   constructor(props) {
     super(props);
 
@@ -89,7 +64,6 @@ class QuickTransaction extends Component {
   }
 
   componentDidMount = () => {
-    //"2021-11-09T22:56:43.62265"
     var that = this;
     var day = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -105,16 +79,9 @@ class QuickTransaction extends Component {
     });
     console.log("Current Time: ", year + '-' + month + '-' + day + 'T' + hours + ':' + min + ':' + sec + '.' + millsecs)
 
-    // this.getUserLocation()
-    //deviceName
-    //modelId
-    //osName
-    // LOG  this ooooo iPhone SE (3rd generation) x86_64 iOS
-
     let deviceName = Device.deviceName;
     this.setState({ user_agent: deviceName + " " + Device.modelId + " " + Device.osName });
     console.log("this ooooo", deviceName, Device.modelId, Device.osName)
-    // console.log("device info this ooooo",DeviceInfo.getDeviceName)
   }
 
   componentWillMount() {

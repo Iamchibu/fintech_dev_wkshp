@@ -25,14 +25,14 @@ const { width } = Dimensions.get("window");
 const { height } = Dimensions.get("window");
 
 const initialState = {
-  faqList: [], 
+  faqList: [],
   up: false,
   down: true,
   password: "",
   token: "",
   isFetching: false,
-  errors: {}, 
-  isAuthorized: false, 
+  errors: {},
+  isAuthorized: false,
   secureTextEntry: false,
   isLoading: false,
   visible: false,
@@ -48,36 +48,36 @@ const initialState = {
   transactionPIN: "",
   accountNumber: "",
   bvn: "",
-  list : [
+  list: [
     {
-    title : "John Doe",
-    amount: "67",
-    num: "Level 1",
+      title: "John Doe",
+      amount: "67",
+      num: "Level 1",
     },
     {
-    title : "Amaka Doe",
-    amount: "40",
-    num: "Level 2",
+      title: "Amaka Doe",
+      amount: "40",
+      num: "Level 2",
     },
     {
-    title : "Ajayi Doe",
-    amount: "70",
-    num: "Level 1",
+      title: "Ajayi Doe",
+      amount: "70",
+      num: "Level 1",
     },
   ],
-  
+
 };
 class Dashboard extends Component {
- state = initialState;
+  state = initialState;
 
-  componentWillMount = ()=> {
+  componentDidMount = () => {
     this._retrieveData();
   }
-  
-  _retrieveData() {    
+
+  _retrieveData() {
     AsyncStorage.getItem("userDetails").then((res) => {
       const response = JSON.parse(res);
-      if (res !== null) {
+      if (res != null) {
         this.setState({
           token: response.token,
           userId: response.id,
@@ -96,89 +96,90 @@ class Dashboard extends Component {
       } else {
         console.log("There is no role dey...", response);
       }
-    });
-  }
-  
-  greetingMessage(ndate) {
-    var greeting = "";
-    // var ndate = new Date();
-    var hr = ndate.getHours();
-      // var h = hr % 12;
-    
-    if (hr < 12){
-          greeting = 'Good Morning';
-    } else if (hr >= 12 && hr <= 16){
-          greeting = 'Good Afternoon';
-    } else if (hr >= 16 && hr <= 24)
-          greeting = 'Good Evening';
-      return greeting;
-  }
+  });
+}
 
-  render() {
-    LogBox.ignoreAllLogs(true);
-    const { name } = this.state;
+greetingMessage(ndate) {
+  var greeting = "";
+  // var ndate = new Date();
+  var hr = ndate.getHours();
+  // var h = hr % 12;
 
-    return (
+  if (hr < 12) {
+    greeting = 'Good Morning';
+  } else if (hr >= 12 && hr <= 16) {
+    greeting = 'Good Afternoon';
+  } else if (hr >= 16 && hr <= 24)
+    greeting = 'Good Evening';
+  return greeting;
+}
+
+render() {
+  LogBox.ignoreAllLogs(true);
+  const { name } = this.state;
+  console.log("name name n a m e", name)
+
+  return (
     <View backgroundColor="#FFFFFF" height={height}>
-    <ScrollView
-      style={styles.scrollView}
-      backgroundColor="#FFFFFF"
-      marginTop={20}
-      paddingBottom={10}>
-    <StatusBar backgroundColor="#FFF" barStyle="dark-content"/>
+      <ScrollView
+        style={styles.scrollView}
+        backgroundColor="#FFFFFF"
+        marginTop={20}
+        paddingBottom={10}>
+        <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
         <View style={{ marginStart: 17, marginTop: 5, marginBottom: 24 }}>
-        <View style={{ marginTop: 20, flexDirection: "row",  }}>
+          <View style={{ marginTop: 20, flexDirection: "row", }}>
             <Text style={{ color: "#002A14", fontSize: 12, fontWeight: "400", lineHeight: 21, marginEnd: 5 }}>
-            {this.greetingMessage(new Date())}</Text>
-            
-            {this.greetingMessage(new Date()) == "Good Morning" ? <View style={{ top: 2}}><Coffee/></View> : 
-            this.greetingMessage(new Date()) == "Good Afternoon" ? 
-            <View style={{ top: 6}}><Sun/></View> : <View style={{ top: 1}}><Moon/></View>}
-        </View>
-        <Text style={{ color: "#002A14", fontSize: 16, fontWeight: "500", lineHeight: 27 }}>
-        {name}</Text>
+              {this.greetingMessage(new Date())}</Text>
+
+            {this.greetingMessage(new Date()) == "Good Morning" ? <View style={{ top: 2 }}><Coffee /></View> :
+              this.greetingMessage(new Date()) == "Good Afternoon" ?
+                <View style={{ top: 6 }}><Sun /></View> : <View style={{ top: 1 }}><Moon /></View>}
+          </View>
+          <Text style={{ color: "#002A14", fontSize: 16, fontWeight: "500", lineHeight: 27 }}>
+            {name}</Text>
         </View>
 
         <View style={styles.cardDesign}>
-        <Text style={{ color: "#000", fontSize: 16, fontWeight: "400", lineHeight: 21 }}>
+          <Text style={{ color: "#000", fontSize: 16, fontWeight: "400", lineHeight: 21 }}>
             Total Balance</Text>
-        <Text style={{ color: "#000", fontSize: 24, fontWeight: "500", lineHeight: 38, marginTop: 3 }}>
+          <Text style={{ color: "#000", fontSize: 24, fontWeight: "500", lineHeight: 38, marginTop: 3 }}>
             $6,000</Text>
         </View>
 
         <Text style={{ textAlign: "left", fontSize: 16, color: "#0A1017", marginStart: 20, fontWeight: "500", lineHeight: 24, marginBottom: 14, marginTop: 24 }}>
-              Cards
+          Cards
         </Text>
         <TouchableOpacity style={styles.banksStyle}>
-            <View style={{ padding: 4 }}>
-            <MasterCard/>
-            </View>
-            <Text style={styles.depositStyle_}>5567 124 9007 9***</Text>
-            <View style={{ padding: 4 }}>
-            <ArrowRight/>
-            </View>
-        </TouchableOpacity>  
+          <View style={{ padding: 4 }}>
+            <MasterCard />
+          </View>
+          <Text style={styles.depositStyle_}>5567 124 9007 9***</Text>
+          <View style={{ padding: 4 }}>
+            <ArrowRight />
+          </View>
+        </TouchableOpacity>
 
         <Text style={{ textAlign: "left", fontSize: 16, color: "#0A1017", marginStart: 20, fontWeight: "500", lineHeight: 24, marginBottom: 14 }}>
           Transactions
-        </Text>     
+        </Text>
 
         {/* <Text style={{ color: "#808080", fontSize: 16, fontWeight: "400", marginTop: 30, lineHeight: 21, width: 250, textAlign: "center", alignSelf: "center" }}>
             Sorry no available transaction at the moment...</Text> */}
-          <FlatList
-            data={this.state.list}
-            style={{ backgroundColor: "#FFF", alignSelf: "center" }}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item,index }) => ( 
-              <TransactionItem
-                  item={item}
-                  />   
-              )}
+        <FlatList
+          data={this.state.list}
+          style={{ backgroundColor: "#FFF", alignSelf: "center" }}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => (
+            <TransactionItem
+              item={item}
             />
+          )}
+        />
       </ScrollView>
-      </View>
-    );
-  }
+    </View>
+  );
+}
 }
 
 const styles = StyleSheet.create({
@@ -197,8 +198,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 12,
   },
-  completeBtn:{
-    backgroundColor: "#00A3CF", 
+  completeBtn: {
+    backgroundColor: "#00A3CF",
     width: width * 0.8,
     alignSelf: "center",
     borderRadius: 8,
@@ -223,17 +224,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: width * 0.8
   },
-  cardDesign: { 
-  alignSelf: "center", 
-  backgroundColor: "#D8E4EC", 
-  width: width * 0.88, 
-  elevation: 2, 
-  shadowColor: "#000",
-  shadowOffset: { width: 0, height: 0 },
-  shadowOpacity: 0.2,
-  alignItems: "center",
-  borderRadius: 8,
-  padding: 15
+  cardDesign: {
+    alignSelf: "center",
+    backgroundColor: "#D8E4EC",
+    width: width * 0.88,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    alignItems: "center",
+    borderRadius: 8,
+    padding: 15
   },
   banksStyle: {
     borderWidth: 0.5,
@@ -254,10 +255,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#E0F4F8",
     width: width * 0.9,
     alignSelf: "center",
-    marginBottom: 25, 
+    marginBottom: 25,
     borderRadius: 5
   },
-  estimateStyle:{
+  estimateStyle: {
     fontSize: 20,
     color: "#2B3037",
     fontWeight: "700",
@@ -274,16 +275,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: width * 0.8
   },
-  threeDotsBtn:{
-    backgroundColor: "#E0F4f8", 
+  threeDotsBtn: {
+    backgroundColor: "#E0F4f8",
     width: 40,
     height: 31,
     alignSelf: "center",
     borderRadius: 8,
     marginHorizontal: 5,
   },
-  loginBtn:{
-    backgroundColor: "#E0F4f8", 
+  loginBtn: {
+    backgroundColor: "#E0F4f8",
     // width: 98,
     height: 34,
     alignSelf: "center",
@@ -292,18 +293,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     flexDirection: "row"
   },
-  modalBackground:{
-    flex:1,
-    alignItems:'center',
-    flexDirection:'column',
-    justifyContent:'space-around',
-    backgroundColor:'#00000040'
+  modalBackground: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    backgroundColor: '#00000040'
   },
-  modalForeground:{
-    backgroundColor:'#ffffff',
+  modalForeground: {
+    backgroundColor: '#ffffff',
     height: height * 0.92,
     width: width * 0.9,
-    borderRadius:10,
+    borderRadius: 10,
     // alignItems:'center', 
   },
   confirmTitle: {
@@ -313,11 +314,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 12,
   },
-  confirmBtn:{
-    backgroundColor: "#00A3CF", 
+  confirmBtn: {
+    backgroundColor: "#00A3CF",
     width: width * 0.8,
     alignSelf: "center",
-    borderRadius: 8, 
+    borderRadius: 8,
     marginBottom: 20,
     marginTop: 5
   },
@@ -409,7 +410,7 @@ const styles = StyleSheet.create({
   imageBgd: {
     flex: 1,
     alignSelf: "center",
-    borderRadius: 15, 
+    borderRadius: 15,
     margin: 10,
   },
   cardStyle: {
@@ -418,7 +419,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#ffffff",
     opacity: 1,
-    margin:15,
+    margin: 15,
     borderRadius: 10,
     backgroundColor: "#FFFFFF",
     shadowColor: "#000000",
@@ -432,7 +433,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#ffffff",
     opacity: 1,
-    margin:15,
+    margin: 15,
     borderRadius: 10,
     backgroundColor: "#1e5228",
     shadowColor: "#000000",
@@ -446,7 +447,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#ffffff",
     opacity: 1,
-    margin:15,
+    margin: 15,
     borderRadius: 10,
     backgroundColor: "#556B2F",
     shadowColor: "#000000",
@@ -460,7 +461,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#ffffff",
     opacity: 1,
-    margin:15,
+    margin: 15,
     borderRadius: 10,
     backgroundColor: "#808000",
     shadowColor: "#000000",
@@ -474,7 +475,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#ffffff",
     opacity: 1,
-    margin:15,
+    margin: 15,
     borderRadius: 10,
     backgroundColor: "#3CB371",
     shadowColor: "#000000",
@@ -488,7 +489,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#ffffff",
     opacity: 1,
-    margin:15,
+    margin: 15,
     borderRadius: 10,
     backgroundColor: "#045F5F",
     shadowColor: "#000000",
@@ -507,7 +508,7 @@ const styles = StyleSheet.create({
   },
   spinnerTextStyle: {
     color: "#FFF",
-  },  
+  },
   helloHaderText: {
     textAlign: "left",
     color: "grey",
@@ -518,7 +519,7 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito_700Bold",
     width: width * 0.65,
     letterSpacing: 0.05,
-  }, 
+  },
   descriptionText: {
     fontSize: 18,
     textAlign: "left",
@@ -541,7 +542,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 22,
     padding: 0,
-    marginBottom: -7,    
+    marginBottom: -7,
     fontFamily: "Nunito_700Bold",
     width: width * 0.65,
     letterSpacing: 0.05,
@@ -647,14 +648,14 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   noListText: {
-        fontSize: 13,
-        fontWeight: "bold",
-        alignSelf: "center",
-        color: "grey",
-        backgroundColor: "#DDDDDD",
-        padding: 20,
-        margin: 15,
-        marginTop:50
-    },
+    fontSize: 13,
+    fontWeight: "bold",
+    alignSelf: "center",
+    color: "grey",
+    backgroundColor: "#DDDDDD",
+    padding: 20,
+    margin: 15,
+    marginTop: 50
+  },
 });
 export default Dashboard;

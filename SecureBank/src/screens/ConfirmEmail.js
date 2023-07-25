@@ -14,13 +14,7 @@ import {
   LogBox,
   Platform
 } from "react-native";
-// import secureBankService from ".././service/SecureBankService";
-import { FontAwesome } from "@expo/vector-icons";
 import  Loader  from '../components/Loader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
-// import { useDispatch, useSelector } from "react-redux";
-// import { login } from "../reducers/LoginReducer";
 import { Auth, Amplify } from 'aws-amplify';
 import awsExports from '../../src/aws-exports';
 Amplify.configure(awsExports);
