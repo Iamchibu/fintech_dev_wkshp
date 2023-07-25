@@ -10,5 +10,5 @@ Basic knowledge of:
 - Javascript
 - Python
 - AWS (GCP, AZURE…)
-- 
+
 **More updates coming soon…**
