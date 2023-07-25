@@ -4,7 +4,11 @@
 
 ![architecture](images/serverless_fintech_stack.png)
 
-## Usage
-
-
-### Deployment
+## Assumptions
+Basic knowledge of:
+- Git
+- Javascript
+- Python
+- AWS (GCP, AZURE…)
+- 
+**More updates coming soon…**
