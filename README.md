@@ -1,5 +1,4 @@
 # Serverless Fraud and Compliance at Scale
-
 Repo housing fintech devcon workshop materials
 
 ## Architecture
