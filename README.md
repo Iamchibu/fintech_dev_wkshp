@@ -4,12 +4,12 @@
 
 ![architecture](images/serverless_fintech_stack.png)
 
-## Assumptions
+## General Requirements
 Basic knowledge of:
 - Git
 - Javascript
 - Python
-- AWS (Configured and set up AWS Account)
+- AWS (Configured and set up AWS Account with Admin privileges)
 - Docker(Configured and set up docker)
 
 
@@ -72,10 +72,37 @@ serverless remove --verbose
 ```
 
 ## Transaction Processing Stack
+
+```
+cd backend && cd txn-service
+```
+
+#### Folder structure and contents:
+
+```bash
+├──Artifacts                          <-- Directory that will hold solution Artifacts
+├── lambda-functions                  <-- Directory contains Lambda functions code
+│   ├── fdLambdaConsumer.py           <-- Consumer Lambda function code
+│   ├── fdLambdaStreamProducer.py     <-- Producer Lambda function code
+│   └── LambdaConfig.py               <-- Configuration Lambda function code
+│   └── requirements.txt              <-- Dependencies file for Lambda functions
+└── RealTimeFraudPrevention           <-- Directory contains Kinesis Data Analytics PyFlink application code 
+│   ├── main.py                       <-- Kinesis Data Analytics PyFlink application code calling Amazon Fraud Detector Model
+│   ├── bin
+│   │   ├── requirements.txt          <-- Dependencies file for Kinesis Data Analytics PyFlink application code 
+├── Realtime_Fraud_Prevention_CFN.yml <-- CloudFormation Template used to provision AWS Managed Kafka, Flink, S3, Lambda, Fraud Detector, SNS, Eventbridge and more 
+
+```
+
+
 `coming soon…`
 
 
 ## Reporting Stack
+
+```
+cd backend && cd rpt-service
+```
 `coming soon…`
 
 
