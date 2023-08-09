@@ -9,7 +9,8 @@ Basic knowledge of:
 - Git
 - Javascript
 - Python
-- AWS (GCP, AZURE…)
+- AWS (Configured and set up AWS Account)
+- Docker(Configured and set up docker)
 
 
 ## Compliance Stack
@@ -29,7 +30,7 @@ npm install -g serverless
 - Replace the `AWS_S3_BUCKET_NAME` variable with the name you plan to use
 - Similarly, replace the `AWS_S3_BUCKET_NAME` on the `resources/data-lake.yml` file with a different name from the s3 bucket named on `serverless.yml`
 
-- Firstly, run this aws command to retrieve AWS_ACCOUNT_ID:
+- Firstly, run this aws command to retrieve `AWS_ACCOUNT_ID`:
 
   
 ```
