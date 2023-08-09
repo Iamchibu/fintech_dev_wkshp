@@ -91,7 +91,6 @@ cd backend && cd txn-service
 │   ├── bin
 │   │   ├── requirements.txt          <-- Dependencies file for Kinesis Data Analytics PyFlink application code 
 ├── Realtime_Fraud_Prevention_CFN.yml <-- CloudFormation Template used to provision AWS Managed Kafka, Flink, S3, Lambda, Fraud Detector, SNS, Eventbridge and more 
-
 ```
 
 
