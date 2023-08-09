@@ -20,6 +20,19 @@ Basic knowledge of:
 cd backend && cd cs-service
 ```
 
+#### Folder structure and contents:
+
+```bash
+├── resources                  <-- Directory that holds aws cloudformation resources definition
+│   ├── data-lake.yml          <-- yaml template to provision s3 bucket to hold sensitve PII
+└── Dockerfile                 <-- Dockerfile to provision LLM and application dependencies
+└── Dockerfile                 <-- Dockerfile to provision LLM and application dependencies
+│   ├── main.py                       <-- Kinesis Data Analytics PyFlink application code calling Amazon Fraud Detector Model
+│   ├── bin
+│   │   ├── requirements.txt          <-- Dependencies file for Kinesis Data Analytics PyFlink application code 
+├── Realtime_Fraud_Prevention_CFN.yml <-- CloudFormation Template used to provision AWS Managed Kafka, Flink, S3, Lambda, Fraud Detector, SNS, Eventbridge and more 
+```
+
 ```
 npm install -g serverless
 
