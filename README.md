@@ -59,4 +59,26 @@ docker tag llm-ftdc AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/llm-ftdc:late
 docker push AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/llm-ftdc:latest
 ```
 
+- Finally, deploy your infrastructure:
+  
+```
+serverless deploy --verbose
+```
+
+- Clean up to remove your deployed AWS resources by using the following command:
+  
+```
+serverless remove --verbose
+```
+
+## Transaction Processing Stack
+`coming soon…`
+
+
+## Reporting Stack
+`coming soon…`
+
+
+
+
 **More updates coming soon…**
