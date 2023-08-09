@@ -27,11 +27,8 @@ cd backend && cd cs-service
 │   ├── data-lake.yml          <-- yaml template to provision s3 bucket to hold sensitve PII
 └── Dockerfile                 <-- Dockerfile to provision LLM and application dependencies
 └── handler.py                 <-- LLM inference lambda python code
-├── handler.py                    <-- Directory that holds aws cloudformation resources definition
-│   ├── main.py                       <-- Kinesis Data Analytics PyFlink application code calling Amazon Fraud Detector Model
-│   ├── bin
-│   │   ├── requirements.txt          <-- Dependencies file for Kinesis Data Analytics PyFlink application code 
-├── Realtime_Fraud_Prevention_CFN.yml <-- CloudFormation Template used to provision AWS Managed Kafka, Flink, S3, Lambda, Fraud Detector, SNS, Eventbridge and more 
+├── requirements.txt           <-- pytorch, transfomers and pdf reader LLM dependencies 
+├── serverless.yml             <-- yaml template to provision lambda and other required AWS resources 
 ```
 
 
