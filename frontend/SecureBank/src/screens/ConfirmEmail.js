@@ -14,6 +14,7 @@ import {
   LogBox,
   Platform
 } from "react-native";
+import Toast from 'react-native-tiny-toast';
 import  Loader  from '../components/Loader';
 import { Auth, Amplify } from 'aws-amplify';
 import awsExports from '../../src/aws-exports';

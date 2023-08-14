@@ -23,7 +23,8 @@
         "package": "com.securebank.securebank",
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.securebank.securebank"
     },
     "web": {
       "favicon": "./assets/favicon.png"

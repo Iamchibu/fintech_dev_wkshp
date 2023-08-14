@@ -154,7 +154,7 @@ render() {
           <View style={{ padding: 4 }}>
             <MasterCard />
           </View>
-          <Text style={styles.depositStyle_}>5567 124 9007 9***</Text>
+          <Text style={styles.depositStyle_}>1234 4567 8901 ****</Text>
           <View style={{ padding: 4 }}>
             <ArrowRight />
           </View>
