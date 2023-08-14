@@ -8,36 +8,18 @@ import {
   ScrollView,
   Alert,
   Image,
-  Dimensions,
   LogBox,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
 import Loader from "../components/Loader";
 import { Amplify, Storage } from 'aws-amplify';
 import awsconfig from '../aws-exports';
-
-const { width } = Dimensions.get("window");
-const WINDOW_HEIGHT = Dimensions.get("window").height;
 Amplify.configure(awsconfig);
 
 export default function DocumentUpload({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [media_type, setMediaType] = useState("application/pdf");
-  const [fileInfo, setFileInfo] = useState("");
-
-  const S3_BUCKET = 'S3 BUCKET name';
-  const REGION = 'us-east-1';
-  const ACCESS_KEY = 'Your Access key';
-  const SECRET_ACCESS_KEY = 'us-east-1:abcdefghijklmnopqrstuvwxyz1234567890-Your secure access key';
-
-  const config = {
-    bucketName: S3_BUCKET,
-    region: REGION,
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: SECRET_ACCESS_KEY,
-  }
+  const [fileInfo, setFileInfo] = useState({});
 
   const fetchImageUri = async (uri) => {
     const response = await fetch(uri);
@@ -47,15 +29,15 @@ export default function DocumentUpload({ route, navigation }) {
 
   const _pickDocument = async () => {
       let result = await DocumentPicker.getDocumentAsync({ type: "application/pdf", copyToCacheDirectory: false });
-      // uploadFile(result)
       alert('You selected ' + result.name);
       console.log(result);
       setFileInfo(result)
   }
 
   const uploadFile = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const file = fileInfo
+    if(Object.keys(file).length != 0){
     const pdf = await fetchImageUri(file.uri);
     return Storage.put(`${file.name}${new Date()}.pdf`,pdf, {
       level:'public',
@@ -81,90 +63,10 @@ export default function DocumentUpload({ route, navigation }) {
     }).catch(e => {
       console.log(e);
     })
+  }else{
+    setIsLoading(false);
+    Alert.alert(null,"Please click here to pick a Document button..");
   }
-
-  const uploading = () => {
-    setIsLoading(true)
-    // setClientToken(token);
-
-    const file_name = fileInfo.name;
-    const description = fileInfo.type;
-    const type = fileInfo.type;
-    const file = fileInfo.uri;
-    const size = fileInfo.size;
-    // const id = navigation.state.params.id;
-
-    if (file_name == null && description == null && type == null && file == null && size == null) {
-      setIsLoading(false);
-      Alert.alert("Info: ", "Please Click on the button above to select a file...", [
-        { text: "Ok" },
-      ]);
-    } else {
-      // if (size != null) {
-      if (size < 2097152) {
-        if (media_type == "application/pdf") {
-          let options = { encoding: FileSystem.EncodingType.Base64 };
-          FileSystem.readAsStringAsync(file, options).then(data => {
-            const sign_off_document = 'data:application/pdf;base64,' + data;
-            const payload = { sign_off_document };
-            console.log(payload);
-
-            const onSuccess = ({ data }) => {
-              setIsLoading(false);
-              console.log(data);
-              Alert.alert('Info: ', 'Uploaded Document successfully', [
-                {
-                  text: 'Ok',
-                  onPress: () => {
-                    // navigation.replace('GenServicingStatusFO')
-                  }
-                }
-              ])
-            };
-
-            const onFailure = error => {
-              console.log(error && error.response);
-              setIsLoading(false);
-              if (error.response == null) {
-                setIsLoading(false);
-                Alert.alert('Info: ', 'Network Error')
-              }
-
-              if (error.response.status == 400) {
-                Alert.alert('Info: ', 'Ensure you enter the details required')
-              } else if (error.response.status == 500) {
-                Alert.alert('Info: ', 'Ensure your Network is Stable')
-              } else if (error.response.status == 401) {
-                Alert.alert('Info: ', 'UnAunthorized')
-              } else if (error.response.status == 404) {
-                Alert.alert('Info: ', 'Not Found')
-              }
-              console.log("Heyyyyyyy!!!", error.response.status);
-
-              setIsLoading(false);
-
-            };
-
-            setIsLoading(true);
-
-            // secureBankService
-            //   .put(`/generator/servicing_status/${id}/upload`, payload)
-            //   .then(onSuccess)
-            //   .catch(onFailure);
-          }).catch(err => {
-            console.log("​getFile -> err", err);
-          });
-
-        } else {
-          Alert.alert(null, 'Only pdf file is required...')
-        }
-        // }
-      } else {
-        setIsLoading(false);
-        Alert.alert(null, 'The file you selected is over 2MB\n* Please select less than 2MB file...')
-      }
-    }
-
   }
 
   const _retrieveData = () => {
@@ -187,11 +89,6 @@ export default function DocumentUpload({ route, navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <Spinner
-            visible={isLoading}
-            textContent={"Loading..."}
-            textStyle={styles.spinnerTextStyle}
-        /> */}
       <Loader loading={isLoading} />
       <Text style={styles.titleText}>
         Document Upload
@@ -306,10 +203,3 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
 });
-
-
-
-// GraphQL endpoint: https://ld5oa7ohmbbsdeljytn6afrk2y.appsync-api.us-east-1.amazonaws.com/graphql
-// GraphQL API KEY: da2-52fvpcwsl5hxnp5jbgle64lr6m
-
-// GraphQL transformer version: 2

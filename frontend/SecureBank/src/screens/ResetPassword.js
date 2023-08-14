@@ -17,6 +17,7 @@ import {
 // import secureBankService from ".././service/SecureBankService";
 import { FontAwesome } from "@expo/vector-icons";
 // import  Loader  from '../components/Loader';
+import Toast from 'react-native-tiny-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Auth, Amplify } from 'aws-amplify';
 import awsExports from '../../src/aws-exports';
@@ -265,6 +266,7 @@ const ResetPassword = ({ route, navigation }) => {
                   placeholder={"Enter your code"}
                   placeholderTextColor={"#DAD3D3"}
                   returnKeyType="next"
+                  keyboardType="numeric"
                   ref={codeInput}
                   blurOnSubmit={false}
                 //   onSubmitEditing={() => phoneNumberInput.current.focus()}
