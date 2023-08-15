@@ -203,11 +203,18 @@ aws lambda update-event-source-mapping --uuid <Event_Source_mapping_UUID> --enab
 3. You would now receive email when a transaction is Fraudlent or Legitimate
 
 
+
+#### Destroying infrastructure
+
+
 ## Reporting Stack
 
 ```
 cd backend && cd rpt-service
 ```
+
+Replace S3 Bucket the 
+
 `coming soon…`
 
 
