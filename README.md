@@ -83,7 +83,7 @@ serverless deploy --verbose
 serverless remove --verbose
 ```
 
-## Transaction Processing Stack
+## Transaction Processing Stack - If creating the Fraud Detector models
 
 ```
 cd backend && cd txn-service
