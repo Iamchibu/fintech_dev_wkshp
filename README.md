@@ -89,7 +89,7 @@ serverless remove --verbose
 `TPS` is tightly coupled with the `Reporting Stack` and `TPS` isn't cheap to deploy on AWS :(. Also, before provisioning the `TPS` you would have to train and productionize a `Fraud Detector Model`. For those running their AWS account on a budget or are not able to quickly deploy their Fraud Detector model, we included a sample dataset of what a typical output from the `TPS` would look like for you to use on the `Reporting Stack` section.
 
 
-### Creating Fraud Detector models
+### Creating Fraud Detector model
 
 - Follow the step by step directions on this [blog](https://aws.amazon.com/blogs/machine-learning/detect-online-transaction-fraud-with-new-amazon-fraud-detector-features/) to recreate and productionize the fraud model being used
 
