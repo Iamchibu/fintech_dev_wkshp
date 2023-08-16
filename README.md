@@ -83,8 +83,17 @@ serverless deploy --verbose
 serverless remove --verbose
 ```
 
-## Transaction Processing Stack - If creating the Fraud Detector models
+## Transaction Processing Stack - TPS
 
+**NOTE:**
+`TPS` is tightly coupled with the `Reporting Stack` and `TPS` isn't cheap to deploy on AWS :(. Also, before provisioning the `TPS` you would have to train and productionize a `Fraud Detector Model`. For those running their AWS account on a budget or are not able to quickly deploy their Fraud Detector model, we included a sample dataset of what a typical output from the `TPS` would look like for you to use on the `Reporting Stack` section.
+
+
+### Creating Fraud Detector models
+
+- Follow the step by step directions on this [blog](https://aws.amazon.com/blogs/machine-learning/detect-online-transaction-fraud-with-new-amazon-fraud-detector-features/) to recreate and productionize the fraud model being used
+
+- Next:
 ```
 cd backend && cd txn-service
 ```
@@ -113,7 +122,7 @@ pip3 install -r ./lambda-functions/requirements.txt -t ./lambda-functions
 (cd lambda-functions; zip -r ../Artifacts/lambda-functions.zip .)
 ```
 
-### Install Kinesis Data Analytics PyFlink application dependencies and package code
+#### Install Kinesis Data Analytics PyFlink application dependencies and package code
 
 ```bash
 pip3 install -r ./RealTimeFraudPrevention/bin/requirements.txt -t ./RealTimeFraudPrevention/lib/packages
@@ -205,6 +214,8 @@ aws lambda update-event-source-mapping --uuid <Event_Source_mapping_UUID> --enab
 
 
 #### Destroying infrastructure
+
+- Head over to the AWS CloudFormation console and delete the created resources. Ensure that your MSK cluster and KDA application were all successfully deleted. If not go back and delete them. Do the same for the Fraud Detector deployment.
 
 
 ## Reporting Stack
