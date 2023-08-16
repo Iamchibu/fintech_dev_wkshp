@@ -213,6 +213,18 @@ aws lambda update-event-source-mapping --uuid <Event_Source_mapping_UUID> --enab
 cd backend && cd rpt-service
 ```
 
+#### Folder structure and contents:
+
+```bash
+├── superset                   <-- Directory that holds Apache Superset for monitoring and visualizing transaction data
+├── resources                  <-- Directory that holds aws cloudformation resources definition
+│   ├── batch-process.yml      <-- yaml template to provision Glue crawler for crawling transactions data written to s3, Glue DB Catalog and dynamoDB resources
+├── functions                  <-- Directory that holding lambda function
+│   ├── handler.py             <-- Lambda handler to kick-start glue crawler process and handle athena queries to create table
+├── serverless.yml             <-- yaml template to provision lambda and other required AWS resources 
+```
+
+
 * Replace your <AWS_S3_BUCKET_NAME> on these files:
     * `serverless.yml`
     * `batch-process.yml`
@@ -222,11 +234,30 @@ cd backend && cd rpt-service
 serverless deploy --verbose
 ```
 
+#### Visualizing and monitoring transaction data:
+
+- On the root folder:
+```
+cd superset 
+```
+- Run:
+```
+TAG="2.1.0-dev" docker-compose -f docker-compose-non-dev.yml $@ up
+```
+- Navigate to `http://localhost:8088`. Username and password: `admin`
+- From the dropdown `Settings` menu on the right, select `Database connections`. Choose Amazon Athena Database and connect to it by adding a DB connection string like so:
+
+```
+awsathena+rest://{aws_access_key_id}:{aws_secret_access_key}@athena.{region_name}.amazonaws.com/{txn_database}?s3_staging_dir={s3://<AWS_S3_BUCKET>}
+```
+
 #### Destroying infrastructure
 
+- At the root folder:
 ```
 serverless remove --verbose
 ```
-
-
-**More updates coming soon…**
+- Run:
+```
+TAG="2.1.0-dev" docker-compose -f docker-compose-non-dev.yml $@ down -v
+```
