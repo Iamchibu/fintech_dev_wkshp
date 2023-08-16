@@ -39,10 +39,10 @@ npm install -g serverless
 
 
 - On `serverless.yml` file, use the same service name - `cs-service` or create a new one
-- Replace the `AWS_S3_BUCKET_NAME` variable with the name you plan to use
-- Similarly, replace the `AWS_S3_BUCKET_NAME` on the `resources/data-lake.yml` file with a different name from the s3 bucket named on `serverless.yml`
+- Replace the `<AWS_S3_BUCKET_NAME>` variable with the name you plan to use
+- Similarly, replace the `<AWS_S3_BUCKET_NAME>` on the `resources/data-lake.yml` file with a different name from the s3 bucket named on `serverless.yml`
 
-- Firstly, run this aws command to retrieve `AWS_ACCOUNT_ID`:
+- Firstly, run this aws command to retrieve `<AWS_ACCOUNT_ID>`:
 
   
 ```
@@ -56,7 +56,7 @@ docker build -t llm-ftdc .
 ```
 
 ```
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
 ```
 
 ```
@@ -64,11 +64,11 @@ aws ecr create-repository --repository-name llm-ftdc --image-scanning-configurat
 ```
 
 ```
-docker tag llm-ftdc AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/llm-ftdc:latest
+docker tag llm-ftdc <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/llm-ftdc:latest
 ```
 
 ```
-docker push AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/llm-ftdc:latest
+docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/llm-ftdc:latest
 ```
 
 - Finally, deploy your infrastructure:
@@ -138,8 +138,8 @@ Replace:
 * **<Amazon_Fraud_Detector_Region>** with the region used to deploy the Amazon Fraud Detector model. E.g. *us-east-1* 
 
 ```
-aws s3 mb s3://<S3_Bucket_name> --region <Amazon_Fraud_Detector_Region>
-aws s3 sync ./Artifacts/ s3://<S3_Bucket_name>
+aws s3 mb s3://<AWS_S3_BUCKET_NAME> --region <Amazon_Fraud_Detector_Region>
+aws s3 sync ./Artifacts/ s3://<AWS_S3_BUCKET_NAME>
 ```
 
 #### Deploy solution
@@ -213,11 +213,20 @@ aws lambda update-event-source-mapping --uuid <Event_Source_mapping_UUID> --enab
 cd backend && cd rpt-service
 ```
 
-Replace S3 Bucket the 
+* Replace your <AWS_S3_BUCKET_NAME> on these files:
+    * `serverless.yml`
+    * `batch-process.yml`
+    * `handler.py`
+ 
+```
+serverless deploy --verbose
+```
 
-`coming soon…`
+#### Destroying infrastructure
 
-
+```
+serverless remove --verbose
+```
 
 
 **More updates coming soon…**
