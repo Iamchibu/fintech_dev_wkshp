@@ -272,3 +272,133 @@ serverless remove --verbose
 ```
 TAG="2.1.0-dev" docker-compose -f docker-compose-non-dev.yml $@ down -v
 ```
+
+
+
+
+## Frontend Mobile Deployment
+### Applications to be installed first:
+
+•	Android Studio or XCode for Android Emulator and iOS Simulator respectively
+
+### Expo Go App installation:
+
+_Steps:_
+
+•	Go to Play store or Appstore to search for Expo Go, then install on your Android device and iPhone device.
+
+### React Native Expo Setup: 
+
+_Steps:_
+
+•	If you don’t have Node(npm) install Node with this [link](https://nodejs.org/en/download), if you have Node(npm) installed you can skip this step.
+
+•	Navigate to the SecureBank folder
+
+```
+cd frontend && cd SecureBank
+```
+•	Install all the apps libraries
+
+```
+npm install
+```
+
+```
+npm install -g expo-cli
+```
+
+```
+npm install expo
+```
+
+### AWS:
+
+_Steps:_
+
+•	Install Amplify CLI 
+
+```
+npm install -g @aws-amplify/cli
+```
+
+•	If you don’t have AWS Account click this [link](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start/email) to create one 
+
+
+_Authentication(User Sign in using AWS Cognito and AWS Amplify):_
+
+
+•	Sign in on AWS, and Search for Amplify, Click on New app
+
+•	Then Select Build an app, use “Any name” Bank, then click Confirm Deployment
+
+•	Once deployment is done, Launch Studio to manage the data and Backend
+
+•	Go to the side Menu, scroll down to Set up, then Authentication, Then Scroll to the Deploy bottom.
+
+•	Once deployment is done. Go to the right top corner. Click on Deployment successful – click for the next steps. Then copy the amplify pull … code in the terminal of the project. To pull the changes to the local.
+
+•	Then Amplify would ask for permission to Login, click Yes.
+
+•	Then the following answers should be selected for setting up, Choose default editor, JavaScript, React Native, select enter for the next 3 questions, then “y” for the last question. 
+
+•	After the setting up the amplify folder should be in the project.
+
+
+_Storage(Document upload to S3):_
+
+•	AWS account creation - amplify configure
+
+```
+amplify configure
+```
+•	Follow the steps on this [link](https://docs.amplify.aws/cli/start/install/#configure-the-amplify-cli) to complete amplify configuration 
+
+•	To initialize a new Amplify project, run
+
+```
+amplify init
+```
+
+•	For Storage, run, 
+
+```
+amplify add storage
+```
+
+•	To deploy Storage and Auth to AWS, run
+
+```
+amplify push
+```
+
+•	Go to the App and then Profile at the bottom tab, click on upload a Document, and upload a pdf.
+
+
+### Running the App:
+_Steps:_
+
+•	Start app
+
+```
+npx expo start
+```
+Upon running successfully, tap **i** for iOS simulator or iPhone, and **a** for Android emulator and Android Device or Scan QR code with Expo Go app.
+
+•	Signup with your email and go through the authentication flow to gain acccess to the app.
+
+
+<img src='images/welcome.jpeg' width='220'> <img src='images/Signup.jpeg' width='220'>
+<img src='images/Signin.jpeg' width='220'> <img src='images/Dashboard.jpeg' width='220'>
+
+### Transactions workflow:
+•	Select the `Transactions` bottom tab and navigate to the `Quick Transaction` screen. Tap the `Submit` button to perform your fictious bank transactions. You will receive an email alert if a transaction is fraudulent.
+
+<img src='images/Transact.jpeg' width='220'>
+
+
+### Compliance workflow:
+
+•	Go to the `Profile` bottom tab. Tap the `Upload Document` button to upload a loan underwriting document. Head to the `PII` and `Non-PII` <AWS_S3_Bucket> created while working through the compliance stack deployment to verify the classification of your uploaded document.
+
+<img src='images/Profile.jpeg' width='220'> <img src='images/UploadDoc.jpeg' width='220'>
