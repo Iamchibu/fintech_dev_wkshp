@@ -12,14 +12,12 @@ import {
   Dimensions,
   LogBox,
 } from 'react-native';
-import { Foundation, Entypo, AntDesign, MaterialCommunityIcons, MaterialIcons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import * as Device from 'expo-device';
 import MarqueeText from 'react-native-marquee';
 import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
-// import moment from 'moment';
-// import secureBankService from ".././service/SecureBankService";
 
 const { width } = Dimensions.get("window");
 const { height } = Dimensions.get("window");
@@ -60,6 +58,8 @@ class QuickTransaction extends Component {
       { label: "Grocery", value: "grocery" },
       { label: "Rent", value: "rent" }],
       loading: false,
+      legitimate: false,
+      fradulent: false,
     };
   }
 
@@ -244,7 +244,10 @@ class QuickTransaction extends Component {
     }
   }
   render() {
-    const { billing_city, billing_state } = this.state;
+
+    const { billing_city, billing_state, legitimate, fradulent } = this.state;
+    
+    LogBox.ignoreAllLogs(true);
     return (
       <ScrollView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
         <View style={{ alignSelf: "center" }}>
@@ -532,7 +535,7 @@ class QuickTransaction extends Component {
             <TouchableOpacity
               style={styles.submitButton}
               onPress={this.uploading}>
-              <Text style={styles.loginButtonText}>Proceed</Text>
+              <Text style={styles.loginButtonText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -605,6 +608,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#DDDDDD',
     padding: 5,
+  },
+  queStyle: {
+    fontSize: 14,
+    color: "#5C6168",
+    fontWeight: "600",
+    lineHeight: 21,
+    marginStart: 2,
+  },
+  radioButtons: {
+    height: 37,
+    padding: 1,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#3B82A0", //"#D0D5DD",
+    alignSelf: "flex-start",
+    marginBottom: 20,
+    marginEnd: 16
   },
   imageIconStyle: {
     height: 20,

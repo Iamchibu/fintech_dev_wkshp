@@ -310,9 +310,9 @@ const styles = StyleSheet.create({
     left: -20
   },
   referTitleStyle: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#FFFFFF",
-    fontWeight: "400",
+    fontWeight: "700",
     lineHeight: 21,
     textAlign: "left",
   },

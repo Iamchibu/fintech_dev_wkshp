@@ -11,6 +11,8 @@ import { createAppContainer } from "react-navigation";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Provider as StoreProvider } from "react-redux";
+import store from "./src/store";
 import Home from "./assets/svgs/home";
 import Profile from "./assets/svgs/profile";
 import Wallet from "./assets/svgs/wallet";
@@ -207,15 +209,19 @@ export default function App() {
   
       if (!fontsLoaded) {
       return (
+      <StoreProvider store={store}>
       <NavigationContainer>
       <AppContainer/>
       </NavigationContainer>
+      </StoreProvider>
       );
     } else{
       return (
+        <StoreProvider store={store}>
         <NavigationContainer>
         <AppContainer/>
         </NavigationContainer>
+        </StoreProvider>
         );
     }
   }

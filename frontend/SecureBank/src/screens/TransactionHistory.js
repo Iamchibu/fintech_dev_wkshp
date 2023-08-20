@@ -33,27 +33,27 @@ const initialState = {
       num: "Level 1",
     },
     {
-      title: "Amaka Doe",
+      title: "Ellen Doe",
       amount: "40",
       num: "Level 2",
     },
     {
-      title: "Ajayi Doe",
+      title: "Davis Doe",
       amount: "70",
       num: "Level 1",
     },
     {
-      title: "Memunat Doe",
+      title: "James Doe",
       amount: "37",
       num: "Level 3",
     },
     {
-      title: "Amaka Doe",
+      title: "Sandra Doe",
       amount: "40",
       num: "Level 2",
     },
     {
-      title: "Ajayi Doe",
+      title: "Davis Doe",
       amount: "70",
       num: "Level 1",
     },
@@ -174,10 +174,3 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
 });
-
-
-
-// GraphQL endpoint: https://ld5oa7ohmbbsdeljytn6afrk2y.appsync-api.us-east-1.amazonaws.com/graphql
-// GraphQL API KEY: da2-52fvpcwsl5hxnp5jbgle64lr6m
-
-// GraphQL transformer version: 2

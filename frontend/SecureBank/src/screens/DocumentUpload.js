@@ -65,7 +65,7 @@ export default function DocumentUpload({ route, navigation }) {
     })
   }else{
     setIsLoading(false);
-    Alert.alert(null,"Please click here to pick a Document button..");
+    Alert.alert(null,"Please click on 'Click here to pick a Document' button..");
   }
   }
 
