@@ -253,14 +253,30 @@ cd superset
 ```
 - Run:
 ```
-TAG="2.1.0-dev" docker-compose -f docker-compose-non-dev.yml $@ up
+chmod +x deploy.sh
+./deploy.sh
 ```
 - Navigate to `http://localhost:8088`. Username and password: `admin`
-- From the dropdown `Settings` menu on the right, select `Database connections`. Choose Amazon Athena Database and connect to it by adding a DB connection string like so:
+ 
+- From the dropdown `Settings` menu on the right, select `Database connections`. Choose `Amazon Athena` Database and connect to it by adding a DB connection string like so:
 
 ```
 awsathena+rest://{aws_access_key_id}:{aws_secret_access_key}@athena.{region_name}.amazonaws.com/{txn_database}?s3_staging_dir={s3://<AWS_S3_BUCKET>}
 ```
+![db_cxn](images/db_cxn.png)
+
+- Navigate to `SQL` dropdown down menu and select `SQL Lab`.
+![sql_lab](images/sql_lab.png)
+
+- Choose the name given to your Athena DB above. In our case, `ftdc_demo`, SCHEMA - `txn_database`, TABLE SCHEMA - `txn_processedtxns`
+- Run the query below  
+```
+SELECT transaction_amt, email_address, event_id, CAST("from_iso8601_timestamp"(event_time) AS timestamp) event_ts, fd.outcome FROM txn_processedtxns;
+```
+![sql_query](images/sql_query.png)
+
+- Use the data from the query above to create a chart that shows the amount of approved / fraudulent transactions over time.
+![txn_monitor](images/txn_monitor_chart.png)
 
 #### Destroying infrastructure
 
@@ -268,11 +284,12 @@ awsathena+rest://{aws_access_key_id}:{aws_secret_access_key}@athena.{region_name
 ```
 serverless remove --verbose
 ```
-- Run:
+- Navigate to the `superset` folder:
 ```
-TAG="2.1.0-dev" docker-compose -f docker-compose-non-dev.yml $@ down -v
+cd superset
+chmod +x stop.sh
+./stop.sh
 ```
-
 
 
 
