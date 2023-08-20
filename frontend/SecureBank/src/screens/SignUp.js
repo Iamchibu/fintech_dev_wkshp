@@ -14,9 +14,8 @@ import {
   LogBox,
   Platform
 } from "react-native";
-// import secureBankService from ".././service/SecureBankService";
 import { FontAwesome } from "@expo/vector-icons";
-// import  Loader  from '../components/Loader';
+import  Loader  from '../components/Loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-tiny-toast';
 import { Auth, Amplify } from 'aws-amplify';
