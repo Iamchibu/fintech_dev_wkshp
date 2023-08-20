@@ -19,4 +19,5 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 .DS_Store
+backend/.DS_Store
 #amplify-do-not-edit-end
