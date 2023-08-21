@@ -25,7 +25,7 @@ const { width, height } = Dimensions.get("window");
 
 const ConfirmEmail = ({ route, navigation }) => {
     
-  const { email } = navigation.state.params;
+  const { email } = route.params;
 
   const [isLoading, setIsLoading] = useState(false);
   const [otp, setOtp] = useState("");
