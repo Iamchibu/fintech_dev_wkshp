@@ -21,6 +21,7 @@ provider:
     images:
       llm-ftdc:
         path: ./
+
   s3:
     csFolder:
       name: ftdc-cs-bucket
@@ -32,18 +33,19 @@ package:
 
 functions:
   process_pdf:
+    environment:
+      TRANSFORMERS_CACHE: "/tmp"
     image: 
       name: llm-ftdc
     events:
       - s3:
           bucket: csFolder
           event: s3:ObjectCreated:*
+    timeout: 600
+    memorySize: 1024
+
 
 # resources:
 #   - ${file(resources/data-lake.yml)}
-
-
-
-
 
 
