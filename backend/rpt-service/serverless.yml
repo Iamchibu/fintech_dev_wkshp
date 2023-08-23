@@ -1,23 +1,7 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
 
-service: reporting-service
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
+service: rpt-service
+
 frameworkVersion: '3'
 
 provider:
@@ -26,7 +10,7 @@ provider:
   stage: dev
   region: us-east-1
 
-# you can add statements to the Lambda function's IAM Role here
+
   iam:
     role:
       statements:
@@ -34,7 +18,18 @@ provider:
           Action:
             - "s3:*"
           Resource: "*"
-
+        - Effect: "Allow"
+          Action:
+            - "glue:*"
+          Resource: "*"
+        - Effect: "Allow"
+          Action:
+            - "athena:*"
+          Resource: "*"
+        - Effect: "Allow"
+          Action:
+            - dynamodb:*
+          Resource: "*"
 
 custom:
   S3Prefix: "destination-parquet/"
@@ -43,123 +38,63 @@ custom:
   AthenaWorkGroup: "primary"
   Database: "txn_database"
   DataCatalog: "AwsDataCatalog"
-  BucketName: ''
-
+  CrawlerName: "txn_crawler"
+  # TableName:  "txns_table"
+  JobName: "my_glue_job"
+  pythonRequirements:
+    dockerizePip: non-linux
 
 plugins:
   - serverless-iam-roles-per-function
-
-# you can add packaging information here
-#package:
-#  patterns:
-#    - '!exclude-me.py'
-#    - '!exclude-me-dir/**'
-#    - include-me.py
-#    - include-me-dir/**
+  # - serverless-python-requirements
 
 
+
+package:
+  exclude:
+    - node_modules/**
+    - .serverless/**
+    - superset/**
+  include:
+    - functions/handler.py
 
 functions:
-  runEtlAthena:
-    handler: functions/run_athena/handler.runEtl
-    timeout: 30
+  slsEtl:
+    handler: functions/handler.slsEtl
+    events:
+      - eventBridge:
+          schedule: rate(1 minute)
     environment:
-      QUERY: ${file(queries/query_tbl.sql)}
       DB: ${self:custom.Database}
       CATALOG: ${self:custom.DataCatalog}
       WORKGROUP: ${self:custom.AthenaWorkGroup}
-      OUTPUT: "s3://ftdc-2023-txnbucket/batch-transformed/temp"
-    iamRoleStatementsName: ${self:service}-${opt:stage, self:provider.stage}-runQueryAthena-lambdaRole
+      OUTPUT: "s3://n-ftdc-target-bucket/athena-results/temp"
+      CRAWLER: ${self:custom.CrawlerName}
+      TABLE_NAME: runOnceTable
+      # TABLE: ${self:custom.TableName}
+      JOB_NAME: ${self:custom.JobName}
+    timeout: 300
+    iamRoleStatementsName: ${self:service}-${opt:stage, self:provider.stage}-slsEtl-lambdaRole
     iamRoleStatementsInherit: true
     iamRoleStatements:
       - Effect: "Allow"
         Action:
-          - athena:StartQueryExecution
-        Resource:
-          Fn::Join:
-            - ""
-            - - !Sub "arn:aws:athena:${AWS::Region}:${AWS::AccountId}:workgroup/"
-              - ${self:custom.AthenaWorkGroup}
-      - Effect: "Allow"
-        Action:
-          - s3:GetBucketLocation
-          - s3:GetObject
-          - s3:ListBucket
-          - s3:ListBucketMultipartUploads
-          - s3:ListMultipartUploadParts
-          - s3:AbortMultipartUpload
-          - s3:PutObject
-        Resource: 
-          Fn::GetAtt:
-            - TxnBucket
-            - Arn   
-      - Effect: "Allow"
-        Action:
-          - glue:GetTable
-          - glue:UpdateTable
-          - glue:GetPartition
-          - glue:GetPartitions
-          - glue:BatchCreatePartition
+          - athena:*
         Resource: "*"
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-#    events:
-#      - httpApi:
-#          path: /users/create
-#          method: get
-#      - websocket: $connect
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-#      - alb:
-#          listenerArn: arn:aws:elasticloadbalancing:us-east-1:XXXXXX:listener/app/my-load-balancer/50dc6c495c0c9188/
-#          priority: 1
-#          conditions:
-#            host: example.com
-#            path: /hello
+      - Effect: "Allow"
+        Action:
+          - s3:*
+        Resource: "*"
+      - Effect: "Allow"
+        Action:
+          - glue:*
+        Resource: "*"
+      - Effect: "Allow"
+        Action:
+          - dynamodb:*
+        Resource: "*"
 
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-# resources:
-#   - ${file(resources/iot-common.yml)}
-#   - ${file(resources/iot-things.yml)}
-#   - ${file(resources/data-sources.yml)}
-#   - ${file(resources/switch-alerts.yml)}
-#   - ${file(resources/auth.yml)}
-#   - ${file(resources/greengrass.yml)}
 
 resources:
   - ${file(resources/batch-process.yml)}
 
-
-# you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
