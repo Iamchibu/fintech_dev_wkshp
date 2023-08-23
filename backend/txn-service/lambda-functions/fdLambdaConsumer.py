@@ -10,6 +10,7 @@ from datetime import datetime
 from decimal import *
 
 sns = boto3.client('sns')
+s3 = boto3.client('s3')
 
 def lambda_handler(event, context):
     # Get SNS Topic ARN 
@@ -20,7 +21,20 @@ def lambda_handler(event, context):
         for record_value in partition_value:
             data = json.loads(base64.b64decode(record_value['value']))
 
+            print("data received from MSK:", data)
+            bucket = 'n-ftdc-target-bucket'
+            key = 'processedTxns/' + data["event_id"]
+
+            print("s3 bucket key:", key)
+
+            s3dataObj = json.dumps(data).encode()
+
+            print("data being stored on s3:", s3dataObj)
+
+            s3.put_object(Bucket=bucket, Key=key, Body=s3dataObj)
             # For each event, check if the outcome is 'block' 
+
+            print("processed transaction data successfully stored to s3")
 
             if data["fd"]["outcome"] == 'block':
                 # Construct the message to SNS. Sending the following:

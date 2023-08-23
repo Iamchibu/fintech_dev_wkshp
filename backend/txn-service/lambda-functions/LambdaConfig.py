@@ -3,7 +3,6 @@
 
 import sys
 import boto3
-# from botocore.exceptions import ClientError
 import datetime
 import json
 import os
@@ -28,21 +27,21 @@ def lambda_handler(event, context):
     
     if event["RequestType"] == 'Delete':
 
-        # try:
+        try:
             # List All connectors with the stackName as the prefix and get the ARN of the connector
 
-            # response = connect.list_connectors(connectorNamePrefix=stack_name)
-            # connectorArn=response['connectors'][0]['connectorArn']
+            response = connect.list_connectors(connectorNamePrefix=stack_name)
+            connectorArn=response['connectors'][0]['connectorArn']
 
-            #Delete the connector
-            # response = connect.delete_connector(connectorArn=connectorArn)
+            # Delete the connector
+            response = connect.delete_connector(connectorArn=connectorArn)
 
             # Wait for 60 seconds for the connector to get deleted. Otherwise this Lambda function will get deleted before recieving a response
 
-        #     sleep(60)
+            sleep(60)
             
-        # except Exception as e:
-        #     logging.error('Exception: %s' % e, exc_info=True)
+        except Exception as e:
+            logging.error('Exception: %s' % e, exc_info=True)
 
         # except ClientError as e:
         #     logging.error('Exception: %s' % e, exc_info=True)
@@ -65,7 +64,9 @@ def lambda_handler(event, context):
     
         msk_response_bootstrap = msk.get_bootstrap_brokers(ClusterArn=msk_cluster_arn)
         bootstrap_servers=msk_response_bootstrap["BootstrapBrokerStringTls"]
+
         print("bootstrap_servers value:", bootstrap_servers)
+
         kda_name = os.environ["kdaName"]
         subnet_1 = os.environ["subnet1"]
         subnet_2 = os.environ["subnet2"]
@@ -95,7 +96,7 @@ def lambda_handler(event, context):
     
             msk_response_create = msk.create_configuration(
             Name=f'{stack_name}-msk-config',
-            Description='The configuration to use on blog MSK clusters.',
+            Description='The configuration to use on Fraud Prevention MSK clusters.',
             KafkaVersions=['2.2.1'],
             ServerProperties=b"auto.create.topics.enable = true")
     
@@ -191,7 +192,8 @@ def lambda_handler(event, context):
                     'bucketArn': s3_bucket_arn,
                     'fileKey': file_key,
                     }
-                },name=plugin_name)
+                },
+            name=plugin_name)
 
             # Wait for custom plugin to be created
     
@@ -222,13 +224,17 @@ def lambda_handler(event, context):
             },
             connectorConfiguration={
                 "connector.class": "io.confluent.connect.s3.S3SinkConnector",
-                "format.class": "io.confluent.connect.s3.format.parquet.ParquetFormat",
+                "format.class": "io.confluent.connect.s3.format.json.JsonFormat",
                 "s3.region": aws_region,
-                "s3.bucket.name": s3bucketName,
+                "s3.bucket.name": "n-ftdc-target-bucket",
                 "topics": processed_topic,
-                "flush.size": "1",
-                "s3.prefix": "transactions-data-predictions",
+                "value.converter.schemas.enable": "false",
+                "flush.size": "200",
+                "schema.compatibility": "NONE",
+                "partitioner.class": "io.confluent.connect.storage.partitioner.DefaultPartitioner",
                 "storage.class": "io.confluent.connect.s3.storage.S3Storage",
+                "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+                "value.converter": "org.apache.kafka.connect.json.JsonConverter",
                 "tasks.max": "1",
                 "name": f'{stack_name}-s3-sink'
             },
@@ -279,31 +285,6 @@ def lambda_handler(event, context):
             status = cfnresponse.FAILED
 
         # Send response to CFN to continue with Stack creation or rollback
-        # status = cfnresponse.SUCCESS
+
         cfnresponse.send(event, context, status, {})
 
-        # except ClientError as e:
-        #     logging.error('Exception: %s' % e, exc_info=True)
-        #     status = cfnresponse.FAILED
-        # sys.stdout.flush()
-        # cfnresponse.send(event, context, status, {})
-
-
-
-
-
-
-# (cd Artifacts; curl -L -O https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-s3/versions/10.0.3/confluentinc-kafka-connect-s3-10.0.3.zip)
-
-#TODO: reconfigure the sink connector....Also create the s3 folder path - transactions-data-predictions
-
-# connector.class=io.confluent.connect.s3.S3SinkConnector
-# s3.region=us-east-1
-# format.class=io.confluent.connect.s3.format.parquet.ParquetFormat
-# flush.size=1
-# topics=processed_transactions
-# tasks.max=1
-# name=n-ftdc-sink-dev
-# storage.class=io.confluent.connect.s3.storage.S3Storage
-# s3.prefix=transactions-data-predictions
-# s3.bucket.name=n-ftdc

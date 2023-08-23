@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Real time Fraud Prevention blog
+Description: Real time Fraud Prevention stack
 #Parameters
 Parameters:
   BucketName:
@@ -15,7 +15,7 @@ Parameters:
     Default: confluentinc-kafka-connect-s3-10.0.3.zip
   YourEmail:
     Type: String
-    Description: The email that will receive notifications. E.g awsblog@example.com 
+    Description: The email that will receive notifications. E.g email@example.com 
   KafkaInputTopic:
     Type: String
     Description: Input topic name
@@ -36,14 +36,6 @@ Parameters:
     Type: String
     Description: Fraud Detector entity type name to use. Eg customer
     Default: customer
-  # OpenSearchMasterUsername:
-  #   Type: String
-  #   Description: Opensearch Master Username
-  #   Default: admin
-  # OpenSearchMasterPassword:
-  #   Type: String
-  #   Description: Opensearch Master Password
-  #   NoEcho: TRUE
 
 # Resources
 Resources:
@@ -165,6 +157,21 @@ Resources:
       IpProtocol: tcp
       ToPort: 443
 
+  ApiGatewayVpcEndpoint:
+    Type: "AWS::EC2::VPCEndpoint"
+    Properties:
+      VpcId: !Ref BlogVPC
+      ServiceName:
+        Fn::Sub:
+          com.amazonaws.${AWS::Region}.execute-api
+      VpcEndpointType: Interface
+      SubnetIds:
+        - !Ref privateSubnet1
+        - !Ref privateSubnet2
+      SecurityGroupIds:
+        - !GetAtt BlogVPC.DefaultSecurityGroup
+      PrivateDnsEnabled: true
+
 # Lambda Role
   LambdaServiceExecutionRole:
     Type: AWS::IAM::Role
@@ -195,6 +202,10 @@ Resources:
                   - SNS:Publish
                 Resource:
                   - Ref: fdSNSTopic
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource: "*"
               - Effect: Allow
                 Action:
                   - ec2:CreateNetworkInterface
@@ -287,15 +298,12 @@ Resources:
                 Resource: "*"
               - Effect: Allow
                 Action:
-                  - kinesisanalytics:UpdateApplication
-                  - kinesisanalytics:StartApplication
-                  - kinesisanalytics:DescribeApplication
-                  - kinesisanalytics:AddApplicationVpcConfiguration
+                  - kinesisanalytics:*
                 Resource: !Sub "arn:aws:kinesisanalytics:${AWS::Region}:${AWS::AccountId}:application/${AWS::StackName}-kda-app"
               - Effect: Allow
                 Action:
-                  - s3:GetObject
-                Resource: !Sub  "arn:aws:s3:::${BucketName}/*"
+                  - s3:*
+                Resource: "*"
               - Effect: Allow
                 Action:
                   - iam:CreateServiceLinkedRole
@@ -303,8 +311,6 @@ Resources:
                 Condition:
                   StringEquals:
                     'iam:AWSServiceName': kafkaconnect.amazonaws.com
-
-
 
 
 # Event
@@ -333,6 +339,11 @@ Resources:
         Fn::GetAtt:
           - scheduledEvent
           - Arn
+
+
+
+# How to reference a lambda python function s3 source code key/path and s3 bucket holding code using serverless framework
+
 
 #Producer Lambda
   fdLambdaStreamProducer:
@@ -399,6 +410,73 @@ Resources:
       Protocol: email
       TopicArn: !Ref fdSNSTopic
 
+
+ 
+  # API Gateway Definition
+  MyApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: 'MyAPI'
+      Description: 'API for my Lambda function'
+      FailOnWarnings: 'true'
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+
+  MyApiResource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId:
+        Ref: MyApi
+      ParentId:
+        Fn::GetAtt:
+          - "MyApi"
+          - "RootResourceId"
+      PathPart: 'stream_txns'
+
+  MyApiResourceMethod:
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: POST
+      ResourceId:
+        Ref: MyApiResource
+      RestApiId:
+        Ref: MyApi
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Sub:
+            arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${fdLambdaStreamProducer.Arn}/invocations
+        IntegrationResponses:
+          - StatusCode: 200
+        PassthroughBehavior: WHEN_NO_MATCH
+      MethodResponses:
+        - StatusCode: 200
+
+  LambdaInvokePermissionGw:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - fdLambdaStreamProducer
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Sub:
+          arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${MyApi}/*/POST/stream_txns
+
+  Deployment:
+    DependsOn: MyApiResourceMethod
+    Type: 'AWS::ApiGateway::Deployment'
+    Properties:
+      RestApiId:
+        Ref: MyApi
+      Description: 'Deploy MyAPI'
+
+
 # Event Source Mapping
   EventSourceMappingSNS:
     Type: AWS::Lambda::EventSourceMapping
@@ -415,8 +493,6 @@ Resources:
 
 
 # MSK Cluster
-
-
   MSKLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -554,51 +630,26 @@ Resources:
                 Resource: "*"
               - Effect: Allow
                 Action:
-                  - s3:PutObject
-                  - s3:GetObject
-                  - s3:DeleteObject
-                  - s3:ListBucket
-                  - s3:GetObjectVersion
-                Resource:
-                  - !Sub "arn:aws:s3:::${BucketName}"
-                  - !Sub "arn:aws:s3:::${BucketName}/*"
+                  - s3:*
+                Resource: "*"
               - Effect: Allow
                 Action:
                   - kafka-cluster:Connect
                   - kafka-cluster:DescribeCluster
                   - kafka-cluster:AlterCluster
-                Resource: !Ref MSKCluster
+                Resource: "*"
               - Effect: Allow
                 Action:
                   - kafka-cluster:DescribeTopic
                   - kafka-cluster:CreateTopic
                   - kafka-cluster:WriteData
                   - kafka-cluster:ReadData
-                Resource: !Ref MSKCluster
+                Resource: "*"
               - Effect: Allow
                 Action:
                   - kafka-cluster:AlterGroup
                   - kafka-cluster:DescribeGroup
-                Resource: !Ref MSKCluster
-              - Effect: Allow
-                Action:
-                  - s3:ListAllMyBuckets
-                Resource: !Sub  "arn:aws:s3:::${BucketName}/*"
-              - Effect: Allow
-                Action:
-                  - s3:ListBucket
-                  - s3:GetBucketLocation
-                  - s3:DeleteObject
-                Resource: !Sub  "arn:aws:s3:::${BucketName}/*"
-              - Effect: Allow
-                Action:
-                  - s3:PutObject
-                  - s3:GetObject
-                  - s3:AbortMultipartUpload
-                  - s3:ListMultipartUploadParts
-                  - s3:ListBucketMultipartUploads
-                Resource: !Sub  "arn:aws:s3:::${BucketName}/*"
-
+                Resource: "*"
 
 
 #KDA Flink Application
@@ -659,6 +710,7 @@ Resources:
       ApplicationName: !Ref KDAFlinkApplication
       CloudWatchLoggingOption:
         LogStreamARN: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${KDAFlinkLogGroup}:log-stream:${KDAFlinkLogStream}"
+
 
 
   
@@ -722,4 +774,9 @@ Outputs:
   EnableEventRule:
     Description: Step1 - Run this command to start producing data
     Value: !Sub "aws events enable-rule --name ${scheduledEvent}"
-
+  ApiGatewayEndpoint:
+    Description: "API Gateway Endpoint URL"
+    Value: 
+      Fn::Sub: "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/stream_txns"
+    Export:
+      Name: ApiGatewayEndpoint

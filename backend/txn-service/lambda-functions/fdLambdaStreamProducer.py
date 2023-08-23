@@ -28,6 +28,7 @@ def lambda_handler(event, context):
     producer = KafkaProducer(security_protocol="SSL",
                              bootstrap_servers=response["BootstrapBrokerStringTls"],
                              value_serializer=lambda x: json.dumps(x).encode("utf-8"),
+                             batch_size=0,
                              retry_backoff_ms=500,
                              request_timeout_ms=20000)
 
@@ -43,7 +44,7 @@ def lambda_handler(event, context):
 
     # Randomly select 35 rows
     
-    chosen_rows = random.choices(lines, k=35)
+    chosen_rows = random.choices(lines, k=2)
     # Iteratee over the 35 chosen rows. For each row generate a transaction event
     # Use faker and random to generate:
         # 1- Transaction amount
@@ -85,5 +86,8 @@ def lambda_handler(event, context):
         except Exception as e:
             # Catch exceptions
             print(e.with_traceback())
-        # Sleep 1.5 second before sending the next record
-        sleep(1.5)
+        finally:
+            # Sleep 1.5 seconds before sending the next record
+            sleep(300)
+            # Close the Kafka producer
+            producer.close()
