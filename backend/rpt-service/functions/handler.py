@@ -18,6 +18,7 @@ WORKGROUP = os.environ['WORKGROUP']
 OUTPUT = os.environ['OUTPUT']
 CRAWLER = os.environ['CRAWLER']
 JOB_NAME = os.environ['JOB_NAME']
+AWS_S3_BUCKET = os.environ['S3_BUCKET']
 
 def slsEtl(event, context):
     print("event object:", event)
@@ -123,7 +124,7 @@ def create_query(tablename):
     ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
     STORED AS INPUTFORMAT 'org.apache.hadoop.mapred.TextInputFormat'
     OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
-    LOCATION 's3://n-ftdc-target-bucket/processedTxns/{tablename}/'
+    LOCATION 's3://<AWS_S3_BUCKET>/processedTxns/{tablename}/'
     TBLPROPERTIES ('classification'='json', 'serialization.format'='1');
     """
     return query
