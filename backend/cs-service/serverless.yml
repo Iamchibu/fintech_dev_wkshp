@@ -24,7 +24,7 @@ provider:
 
   s3:
     csFolder:
-      name: ftdc-cs-bucket
+      name: <AWS_S3_BUCKET_NAME>
 
 package:
   exclude:
@@ -45,7 +45,5 @@ functions:
     memorySize: 1024
 
 
-# resources:
-#   - ${file(resources/data-lake.yml)}
 
 
