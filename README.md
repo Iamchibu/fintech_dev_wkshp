@@ -289,17 +289,18 @@ chmod +x stop.sh
 
 
 ## Frontend Mobile Deployment
-### Applications to be installed first:
+
+#### Applications to be installed first:
 
 •	Android Studio or XCode for Android Emulator and iOS Simulator respectively
 
-### Expo Go App installation:
+#### Expo Go App installation:
 
 _Steps:_
 
 •	Go to Play store or Appstore to search for Expo Go, then install on your Android device and iPhone device.
 
-### React Native Expo Setup: 
+#### React Native Expo Setup: 
 
 _Steps:_
 
@@ -324,7 +325,7 @@ npm install -g expo-cli
 npm install expo
 ```
 
-### AWS:
+#### AWS:
 
 _Steps:_
 
@@ -334,37 +335,26 @@ _Steps:_
 npm install -g @aws-amplify/cli
 ```
 
-•	If you don’t have AWS Account click this [link](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start/email) to create one 
+•	If you don’t have AWS Account click this [link](https://aws.amazon.com) to create one 
+
+•	Sign in on AWS, and search for Amplify, 
+- Click on New app
+- Select Build an app, use “Any name” Bank, then click Confirm Deployment
+- Once deployment is done, Launch Studio to manage the data and Backend
+- Go to the side Menu, scroll down to Set up, then Authentication, Then Scroll to the Deploy bottom
+- Once deployment is done. Go to the right top corner
+- Click on Deployment successful – click for the next steps
+- Copy the amplify pull … code in the terminal of the project. To pull the changes to the local
+- CLick Yes when Amplify asks for permission to Login
+- Choose the default editor, JavaScript, React Native, select enter for the next 3 questions, then “y” for the last question
 
 
-_Authentication(User Sign in using AWS Cognito and AWS Amplify):_
 
-
-•	Sign in on AWS, and Search for Amplify, Click on New app
-
-•	Then Select Build an app, use “Any name” Bank, then click Confirm Deployment
-
-•	Once deployment is done, Launch Studio to manage the data and Backend
-
-•	Go to the side Menu, scroll down to Set up, then Authentication, Then Scroll to the Deploy bottom.
-
-•	Once deployment is done. Go to the right top corner. Click on Deployment successful – click for the next steps. Then copy the amplify pull … code in the terminal of the project. To pull the changes to the local.
-
-•	Then Amplify would ask for permission to Login, click Yes.
-
-•	Then the following answers should be selected for setting up, Choose default editor, JavaScript, React Native, select enter for the next 3 questions, then “y” for the last question. 
-
-•	After the setting up the amplify folder should be in the project.
-
-
-_Storage(Document upload to S3):_
-
-•	AWS account creation - amplify configure
+#### Amplify configuration
 
 ```
 amplify configure
 ```
-•	Follow the steps on this [link](https://docs.amplify.aws/cli/start/install/#configure-the-amplify-cli) to complete amplify configuration 
 
 •	To initialize a new Amplify project, run
 
@@ -372,10 +362,10 @@ amplify configure
 amplify init
 ```
 
-•	For Storage, run, 
+•	Select the same <AWS_S3_BUCKET> created when you deployed your Compliance Stack above, 
 
 ```
-amplify add storage
+amplify import storage
 ```
 
 •	To deploy Storage and Auth to AWS, run
@@ -387,7 +377,7 @@ amplify push
 •	Go to the App and then Profile at the bottom tab, click on upload a Document, and upload a pdf.
 
 
-### Running the App:
+#### Running the App:
 _Steps:_
 
 •	Start app
@@ -402,11 +392,6 @@ Upon running successfully, tap **i** for iOS simulator or iPhone, and **a** for 
 
 <img src='images/welcome.jpeg' width='220'> <img src='images/Signup.jpeg' width='220'>
 <img src='images/Signin.jpeg' width='220'> <img src='images/Dashboard.jpeg' width='220'>
-
-### Transactions workflow:
-•	Select the `Transactions` bottom tab and navigate to the `Quick Transaction` screen. Tap the `Submit` button to perform your fictious bank transactions. You will receive an email alert if a transaction is fraudulent.
-
-<img src='images/Transact.jpeg' width='220'>
 
 
 ### Compliance workflow:
