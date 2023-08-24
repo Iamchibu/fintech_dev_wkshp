@@ -150,8 +150,7 @@ aws s3 sync ./Artifacts/ s3://<AWS_S3_BUCKET_NAME>
 
 #### Deploy solution
 
-Using AWS CLI
-    * Run the following command to deploy the CloudFormation template
+Using AWS CLI, run the following command to deploy the CloudFormation template
 
 Replace:
 
