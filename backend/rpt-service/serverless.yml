@@ -32,14 +32,11 @@ provider:
           Resource: "*"
 
 custom:
-  S3Prefix: "destination-parquet/"
-  S3BatchResultsPrefix: "transformed-parquet-athena/"
   stage: ${opt:stage, self:provider.stage}
   AthenaWorkGroup: "primary"
   Database: "txn_database"
   DataCatalog: "AwsDataCatalog"
   CrawlerName: "txn_crawler"
-  # TableName:  "txns_table"
   JobName: "my_glue_job"
   pythonRequirements:
     dockerizePip: non-linux
@@ -68,10 +65,8 @@ functions:
       DB: ${self:custom.Database}
       CATALOG: ${self:custom.DataCatalog}
       WORKGROUP: ${self:custom.AthenaWorkGroup}
-      OUTPUT: "s3://n-ftdc-target-bucket/athena-results/temp"
+      OUTPUT: "s3://<AWS_S3_BUCKET>/athena-results/temp"
       CRAWLER: ${self:custom.CrawlerName}
-      TABLE_NAME: runOnceTable
-      # TABLE: ${self:custom.TableName}
       JOB_NAME: ${self:custom.JobName}
     timeout: 300
     iamRoleStatementsName: ${self:service}-${opt:stage, self:provider.stage}-slsEtl-lambdaRole
