@@ -83,7 +83,7 @@ serverless remove --verbose
 ## Transaction Processing Stack - TPS
 
 **NOTE:**
-`TPS` is tightly coupled with the `Reporting Stack` and `TPS` isn't cheap to deploy on AWS :(. Also, before provisioning the `TPS` you would have to train and productionize a `Fraud Detector Model`. For those running their AWS account on a budget or are not able to quickly deploy their Fraud Detector model, we included a sample dataset of what a typical output from the `TPS` would look like for you to use on the `Reporting Stack` section.
+`TPS` is tightly coupled with the `Reporting Stack` and `TPS` isn't cheap to deploy on AWS :(. Also, before provisioning the `TPS` you would have to train and productionize a `Fraud Detector Model`. For those running their AWS account on a budget or are not able to quickly deploy their Fraud Detector model, we included a sample dataset on the `test_data` folder of what a typical output from the `TPS` would look like for you to use on the `Reporting Stack` section. Otherwise, you can proceed with `Creating Fraud Detector model` section.
 
 
 ### Creating Fraud Detector model
