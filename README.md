@@ -233,7 +233,6 @@ cd backend && cd rpt-service
 
 
 * Replace your <AWS_S3_BUCKET_NAME> on these files:
-    * `serverless.yml`
     * `batch-process.yml`
     * `handler.py`
  
