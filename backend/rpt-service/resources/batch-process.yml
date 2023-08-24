@@ -1,7 +1,7 @@
 Parameters:
   TxnBucketName:
     Type: String
-    Default: n-ftdc-target-bucket
+    Default: <AWS_S3_BUCKET>
     Description: Value that will be prefixed to the bucket name
 
   TxnDatabaseName:
@@ -18,22 +18,11 @@ Resources:
       DatabaseInput:
         Description: Glue database to store transaction data
         Name: !Ref TxnDatabaseName
-
-  RunOnceTable:
-    Type: 'AWS::DynamoDB::Table'
+    
+  TxnBucket:
+    Type: 'AWS::S3::Bucket'
     Properties:
-      TableName: runOnceTable
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
-
-
+      BucketName: TxnBucketName
 
   CrawlerRole:
     Type: AWS::IAM::Role
@@ -77,7 +66,7 @@ Resources:
       Role: !GetAtt CrawlerRole.Arn
       Targets:
         S3Targets:
-          - Path: "s3://n-ftdc-target-bucket/processedTxns/"
+          - Path: "s3://<AWS_S3_BUCKET>/processedTxns/"
       DatabaseName: !Ref TxnDatabaseName
       TablePrefix: 'txn_'
       SchemaChangePolicy:
