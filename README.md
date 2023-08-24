@@ -39,10 +39,9 @@ npm install -g serverless
 
 
 - On `serverless.yml` file, use the same service name - `cs-service` or create a new one
-- Replace the `<AWS_S3_BUCKET_NAME>` variable with the name you plan to use
-- Similarly, replace the `<AWS_S3_BUCKET_NAME>` on the `resources/data-lake.yml` file with a different name from the s3 bucket named on `serverless.yml`
+- Replace the `<AWS_S3_BUCKET_NAME>` on the `serverless.yml` file with the s3 bucket name you would be uploading your loan documents to`
 
-- Firstly, run this aws command to retrieve `<AWS_ACCOUNT_ID>`:
+- Next, run this aws command to retrieve `<AWS_ACCOUNT_ID>`:
 
   
 ```
