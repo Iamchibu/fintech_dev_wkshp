@@ -23,8 +23,6 @@ cd backend && cd cs-service
 #### Folder structure and contents:
 
 ```bash
-├── resources                  <-- Directory that holds aws cloudformation resources definition
-│   ├── data-lake.yml          <-- yaml template to provision s3 bucket to hold sensitve PII
 └── Dockerfile                 <-- Dockerfile to provision LLM and application dependencies
 └── handler.py                 <-- LLM inference lambda python code
 ├── requirements.txt           <-- pytorch, transfomers and pdf reader LLM dependencies 
