@@ -1,4 +1,7 @@
-# Serverless Fraud and Compliance at Scale
+
+[!fintech_devcon](https://fintechdevcon.io/) workshop
+
+# Serverless Fraud and Compliance with ML
 
 ## Architecture
 
