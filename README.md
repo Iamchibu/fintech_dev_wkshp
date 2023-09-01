@@ -1,5 +1,5 @@
 
-[!fintech_devcon](https://fintechdevcon.io/) workshop
+[fintech_devcon](https://fintechdevcon.io/) workshop
 
 # Serverless Fraud and Compliance with ML
 
