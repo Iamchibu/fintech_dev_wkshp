@@ -404,4 +404,4 @@ Upon running successfully, tap **i** for iOS simulator or iPhone, and **a** for 
 
 
 ## References:
-- hps://aws.amazon.com/blogs/machine-learning/build-and-visualize-a-real-time-fraud-prevention-system-using-amazon-fraud-detector/
+- https://aws.amazon.com/blogs/machine-learning/build-and-visualize-a-real-time-fraud-prevention-system-using-amazon-fraud-detector/
