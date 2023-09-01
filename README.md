@@ -401,3 +401,7 @@ Upon running successfully, tap **i** for iOS simulator or iPhone, and **a** for 
 •	Go to the `Profile` bottom tab. Tap the `Upload Document` button to upload a loan underwriting document. Head to the `PII` and `Non-PII` <AWS_S3_Bucket> created while working through the compliance stack deployment to verify the classification of your uploaded document.
 
 <img src='images/Profile.jpeg' width='220'> <img src='images/UploadDoc.jpeg' width='220'>
+
+
+## References:
+- hps://aws.amazon.com/blogs/machine-learning/build-and-visualize-a-real-time-fraud-prevention-system-using-amazon-fraud-detector/
