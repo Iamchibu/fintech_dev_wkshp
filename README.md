@@ -1,6 +1,6 @@
 ![ftdc_logo](images/ftdc_logo.png)
 
-**Serverless Fraud and Compliance with ML** workshop at [fintech_devcon](https://fintechdevcon.io/) presented by [moov](https://moov.io) on `08/24/2023` in ATX
+**Serverless Fraud and Compliance with ML** workshop at [fintech_devcon](https://fintechdevcon.io/) presented by [moov](https://moov.io) on `08/24/2023` in `ATX`
 
 ## Architecture
 
