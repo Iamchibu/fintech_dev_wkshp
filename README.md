@@ -1,7 +1,6 @@
+![ftdc_logo](images/ftdc_logo.png)
 
-[fintech_devcon](https://fintechdevcon.io/) workshop
-
-# Serverless Fraud and Compliance with ML
+#[fintech_devcon](https://fintechdevcon.io/) workshop on Serverless Fraud and Compliance with ML
 
 ## Architecture
 
